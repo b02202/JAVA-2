@@ -7,11 +7,15 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
 import com.robertbrooks.project1.R;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /**
  * Created by Bob on 3/2/2015.
@@ -24,15 +28,14 @@ public class Master extends Fragment implements View.OnClickListener {
 
     public Spinner mSpinner;
     public Button mSubmit;
+    public String returnString;
+    public ArrayList<String> infoArray = new ArrayList<>();
 
     public static Master newInstance()
     {
         Master frag = new Master();
         return frag;
     }
-
-
-
 
     // Define Interface
 
@@ -43,8 +46,6 @@ public class Master extends Fragment implements View.OnClickListener {
     }
 
     //onAttach
-
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -63,7 +64,6 @@ public class Master extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.master_layout, container, false);
-        mSpinner = (Spinner) view.findViewById(R.id.spinner);
 
         return view;
     }
@@ -79,24 +79,62 @@ public class Master extends Fragment implements View.OnClickListener {
 
         mSubmit = (Button) view.findViewById(R.id.button);
         mSubmit.setOnClickListener(this);
+        //String[] dropItems = getResources().getStringArray(R.array.items);
 
         mSpinner = (Spinner) view.findViewById(R.id.spinner);
+
+        // add listener to spinner
+        addListener();
+
         // Create Spinner Array Adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item);
 
-        String[] dropItems = getResources().getStringArray(R.array.items);
+        infoArray.add("Search 1");
+        infoArray.add("Search 2");
+        infoArray.add("Search 3");
+        infoArray.add("Search 4");
+        infoArray.add("Search 5");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, dropItems);
 
-        mSpinner.setAdapter(adapter);
-
+        for (int i = 0; i < infoArray.size(); i++)
+        {
+            adapter.add(infoArray.get(i));
+            mSpinner.setAdapter(adapter);
+        }
     }
 
     @Override
     public void onClick(View v) {
 
-        SListener.populateDisplay("This is working");
+        SListener.populateDisplay(returnString);
+    }
+
+    public String getSelText(int selPosition)
+    {
+        String selString = infoArray.get(selPosition);
+        setPopText(selString);
+        return selString;
 
     }
 
+    public void setPopText(String data) {
+       returnString = data;
+
+    }
+
+    // add listener to spinner
+    public void addListener() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                getSelText(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
 }
