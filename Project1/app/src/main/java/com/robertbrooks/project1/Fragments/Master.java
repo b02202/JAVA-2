@@ -2,6 +2,7 @@ package com.robertbrooks.project1.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,12 +11,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
+import com.robertbrooks.project1.CustomData.Weather;
 import com.robertbrooks.project1.R;
+import com.robertbrooks.project1.RemoteConnection.HttpManager;
+import com.robertbrooks.project1.RemoteConnection.ParseJSON;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Bob on 3/2/2015.
@@ -30,6 +36,9 @@ public class Master extends Fragment implements View.OnClickListener {
     public Button mSubmit;
     public String returnString;
     public ArrayList<String> infoArray = new ArrayList<>();
+    public List<aSyncTask> rTasks;
+    public List<Weather> wList;
+    public ProgressBar pb;
 
     public static Master newInstance()
     {
@@ -79,6 +88,7 @@ public class Master extends Fragment implements View.OnClickListener {
 
         mSubmit = (Button) view.findViewById(R.id.button);
         mSubmit.setOnClickListener(this);
+        rTasks = new ArrayList<>();
         //String[] dropItems = getResources().getStringArray(R.array.items);
 
         mSpinner = (Spinner) view.findViewById(R.id.spinner);
@@ -107,9 +117,10 @@ public class Master extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        SListener.populateDisplay(returnString);
+        updateDetail();
     }
 
+    // Get selected text for query
     public String getSelText(int selPosition)
     {
         String selString = infoArray.get(selPosition);
@@ -117,7 +128,7 @@ public class Master extends Fragment implements View.OnClickListener {
         return selString;
 
     }
-
+    // set returnString also used to set query
     public void setPopText(String data) {
        returnString = data;
 
@@ -136,5 +147,46 @@ public class Master extends Fragment implements View.OnClickListener {
 
             }
         });
+    }
+
+    // update detail view
+    public void updateDetail() {
+        SListener.populateDisplay(returnString);
+    }
+     // AsyncTask
+    private class aSyncTask extends AsyncTask<String, String, String> {
+
+        // Pre Execute
+        @Override
+        protected void onPreExecute() {
+            // Handle Progress Bar
+            if (rTasks.size() == 0)
+            {
+                pb.setVisibility(View.VISIBLE);
+            }
+        }
+        // doInBackground
+        @Override
+        protected String doInBackground(String... params) {
+            // String from HttpURLConnection
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+        // onPostExecute
+        @Override
+        protected void onPostExecute(String result) {
+            // Parse JSON
+            wList = ParseJSON.parse(result);
+            // Update TextView
+            updateDetail();
+            // remove task
+            rTasks.remove(this);
+
+            // PB to invisible
+            if (rTasks.size() == 0)
+            {
+                pb.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 }
