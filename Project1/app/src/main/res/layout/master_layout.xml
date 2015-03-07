@@ -21,13 +21,13 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
-    <Button
+    <!--<Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/load_data"
         android:id="@+id/load_button"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginRight="20dp" />-->
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

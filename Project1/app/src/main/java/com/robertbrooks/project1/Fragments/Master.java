@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.robertbrooks.project1.CustomData.Weather;
 import com.robertbrooks.project1.Libs.StorageManager;
@@ -125,12 +125,8 @@ public class Master extends Fragment implements View.OnClickListener {
                             .setPositiveButton("OK", null)
                             .show();
                 }
-
-
                 break;
-            case R.id.load_button:
-                getFilenames();
-                break;
+
         }
     }
 
@@ -171,20 +167,23 @@ public class Master extends Fragment implements View.OnClickListener {
                     // Run AsyncTask
                     runTask(searchString);
 
-                } // TODO: else { load data from storage}
+                }
                 else {
+                    // Load data from local storage
                     try {
-                        String test = null;
+                        String lData = null;
                         try {
-                            test = StorageManager.readJSONFile(selText, getActivity().getApplicationContext());
+                            lData = StorageManager.readJSONFile(selText, getActivity().getApplicationContext());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d(TAG, "Populated by saved json:" + test);
-                        SListener.populateDisplay(test);
+                        Log.d(TAG, "Populated by saved json: " + lData);
+                        SListener.populateDisplay(lData);
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                     }
+
+                    Toast.makeText(getActivity(), "Displaying weather conditions from last successful search", Toast.LENGTH_LONG).show();
                 }
 
                 Log.d(TAG, "Position Text: " + selText);
