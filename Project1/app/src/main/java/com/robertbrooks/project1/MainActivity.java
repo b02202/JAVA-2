@@ -1,6 +1,10 @@
 package com.robertbrooks.project1;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,13 +24,30 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null)
-        {
-            Master frag = Master.newInstance();
+        if (isOnline() == true) {
+            if (savedInstanceState == null)
+            {
+                Master frag = Master.newInstance();
 
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.container1, frag, Master.TAG).commit();
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container1, frag, Master.TAG).commit();
+            }
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("No Internet Connection")
+                    .setMessage("If this is the first time using this application, an internet connection must be present. If you have run this application before your saved data will display")
+                    .setPositiveButton("Continue in offline mode", null)
+                    .show();
+            if (savedInstanceState == null)
+            {
+                Master frag = Master.newInstance();
+
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container1, frag, Master.TAG).commit();
+            }
         }
+
+
     }
 
     @Override
@@ -47,5 +68,18 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
     }
 
     // OpenWeatherMap API Key: be1b038d00d2a039863446fdd8a17c7b
+
+    // Network Check
+    // Network Check
+    protected boolean isOnline() {
+        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
 
 }
