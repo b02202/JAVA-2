@@ -110,13 +110,22 @@ public class Master extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.save_button:
-                try {
-                    StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
+                if (isOnline()) {
+                    try {
+                        StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                    SListener.populateDisplay("Save worked");
+                    getFilenames();
+                } else {
+                    new AlertDialog.Builder(getActivity())
+                            .setTitle("OOPS!")
+                            .setMessage("You must be connected to the internet to add a zip code")
+                            .setPositiveButton("OK", null)
+                            .show();
                 }
-                SListener.populateDisplay("Save worked");
-                getFilenames();
+
 
                 break;
             case R.id.load_button:
