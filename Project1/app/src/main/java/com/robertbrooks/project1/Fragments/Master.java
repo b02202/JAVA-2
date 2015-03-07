@@ -21,6 +21,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.robertbrooks.project1.CustomData.Weather;
 import com.robertbrooks.project1.Libs.StorageManager;
 import com.robertbrooks.project1.MainActivity;
@@ -111,13 +114,23 @@ public class Master extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.save_button:
                 if (isOnline()) {
-                    try {
-                        StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
+                    if (zipCheck(mUserInput.getText().toString()))
+                    {
+                        try {
+                            StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        SListener.populateDisplay("Save worked");
+                        getFilenames();
+                    } else {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("OOPS!")
+                                .setMessage("Please enter a valid zip code")
+                                .setPositiveButton("OK", null)
+                                .show();
                     }
-                    SListener.populateDisplay("Save worked");
-                    getFilenames();
+
                 } else {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("OOPS!")
@@ -262,4 +275,17 @@ public class Master extends Fragment implements View.OnClickListener {
         ATask task = new ATask();
         task.execute(urlSearch);
     }
+
+    // Zip Code Check
+   public boolean zipCheck(String zip) {
+        String regex = "^\\d{5}(-\\d{4})?$";
+        Pattern pattern = Pattern.compile(regex);
+       Matcher matcher = pattern.matcher(zip);
+       if (matcher.matches()) {
+           return true;
+       } else {
+           return false;
+       }
+   }
+
 }

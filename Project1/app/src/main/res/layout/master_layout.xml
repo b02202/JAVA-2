@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText"
         android:layout_marginTop="16dp"
-        android:text="Enter Text HEre" />
+        android:hint="Enter Zip Code"/>
 
 
     <Button
