@@ -7,28 +7,26 @@ import java.util.ArrayList;
  * Created by Bob on 3/3/2015.
  */
 
-public class Weather implements Serializable {
-    private static long serialVersionUID = 8775654232565833554L;  //-7791154359356162736L;
+/*public class Weather implements Serializable {
+    private static long serialVersionUID = 8775654232565833554L;  //-7791154359356162736L;*/
+
+public class Weather {
+   /* private static long serialVersionUID = 8775654232565833554L;  //-7791154359356162736L;*/
 
 
     private String temp;
     private String forecast;
     private String something;
-    private ArrayList<String> inputList = new ArrayList<>();
+    private String zip;
 
 
-
-
-
-
-    // Getters and Setters
-
-    public ArrayList<String> getwList() {
-        return inputList;
+    // Getters / Setters
+    public String getZip() {
+        return zip;
     }
 
-    public void setwList(ArrayList<String> wList) {
-        this.inputList = wList;
+    public void setZip(String zip) {
+        this.zip = zip;
     }
 
     public String getTemp() {

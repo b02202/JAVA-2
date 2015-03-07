@@ -25,50 +25,63 @@ import java.util.ArrayList;
 public class StorageManager {
 
     // Private internal storage
-    public static void saveData (String _data, Context context) throws JSONException {
-
-        JSONArray jData = new JSONArray();
-        JSONObject zip;
-
-        zip = new JSONObject();
-        zip.put("zip", _data);
-
+    public static void writeToFile(String dataString, Context context) throws FileNotFoundException {
         try {
-            FileOutputStream fOStream = context.openFileOutput("zips", Context.MODE_PRIVATE);
-            fOStream.write(_data.getBytes());
-            fOStream.close();
-
+            FileOutputStream fileOutStream = context.openFileOutput(dataString, Context.MODE_PRIVATE);
+            fileOutStream.write(dataString.getBytes());
+            fileOutStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String readData(String dataString, Context context) throws FileNotFoundException {
+        String results = "";
+
+        // add check to see if file is not known
+        try {
+            FileInputStream fileInputStream = context.openFileInput(dataString);
+            results = IOUtils.toString(fileInputStream);
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return results;
+    }
+
+    public static void createJSONFile(JSONArray jData, String fileName, Context context) throws JSONException, IOException {
+        JSONArray data = jData;
+
+        String text = data.toString();
+        FileOutputStream fos = context.openFileOutput(fileName, Context.MODE_PRIVATE);
+        fos.write(text.getBytes());
+        fos.close();
 
     }
 
-    // Load Data
-    public static String loadData(Context context) {
-        ArrayList<String> dataArray = new ArrayList<>();
-        String results;
-        try {
-            FileInputStream fIStream = context.openFileInput("zips");
-            BufferedInputStream bStream = new BufferedInputStream(fIStream);
-            StringBuffer sB = new StringBuffer();
-            while (bStream.available() != 0) {
-                char ch = (char) bStream.read();
+    public static String readJSONFile(String dataString, Context context) throws FileNotFoundException, JSONException {
+        String current = "";
 
+        // add check to see if file is not known
+        try {
+            FileInputStream fileInputStream = context.openFileInput(dataString);
+            String results = IOUtils.toString(fileInputStream);
+            JSONArray data = new JSONArray(results);
+            for (int i = 0; i < data.length(); i++) {
+                current = data.getJSONObject(i).getString("current");
             }
-            results = IOUtils.toString(fIStream);
-            dataArray.add(results);
-            fIStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+
+            fileInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return dataArray.toString();
+        //for (int i = 0)
+        return current;
     }
+
 }
 
 
