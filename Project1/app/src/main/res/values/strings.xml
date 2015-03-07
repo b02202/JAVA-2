@@ -4,6 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="submit">Submit</string>
+    <string name="save_data">Save</string>
+    <string name="load_data">Load</string>
 
     <string-array name="items">
         <item>Search 1</item>

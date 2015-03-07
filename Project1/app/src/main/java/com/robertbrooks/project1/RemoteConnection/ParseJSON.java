@@ -16,33 +16,23 @@ import java.util.List;
  */
 public class ParseJSON {
 
-    public static List<Weather> parse(String content)
-    {
-        final String TAG = "DEV-4";
+    public static List<Weather> parse(String content) {
+
+        final String TAG = "ParseJSON";
         try{
-            // get complete JSON object from Weather Map api
-            JSONObject data = new JSONObject(content).getJSONObject("data");
+            // get complete JSON object from Weather Source
+            JSONObject data = new JSONObject(content);
             // create JSON Array from data JSON object
-            JSONArray children = data.getJSONArray("children");
+            JSONArray weatherArray = data.getJSONArray("weather");
             // Create Weather class arrayList
             List<Weather> weatherList = new ArrayList<>();
-            // Loop through JSON Array
-            for (int i = 0; i < children.length(); i++) {
-                // Create JSON object from "data" object in children JSON Array
-                JSONObject obj = children.getJSONObject(i).getJSONObject("data");
-                // create Weather instance
-                Weather weather = new Weather();
 
-                Log.i(TAG, "OBJ = " + obj);
+            JSONObject JSONWeather = weatherArray.getJSONObject(0);
+            Weather weather = new Weather();
+            weather.setTemp(JSONWeather.getString("description"));
+            Log.i(TAG, "OBJ = " + JSONWeather.get("description"));
+            weatherList.add(weather);
 
-                // Populate Weather data
-                weather.setTemp(obj.getString("title"));
-                weather.setForecast(obj.getString("author"));
-                weather.setSomething(obj.getString("domain"));
-
-                // add to weatherList ArrayList
-                weatherList.add(weather);
-            }
             return weatherList;
         } catch (JSONException e)
         {

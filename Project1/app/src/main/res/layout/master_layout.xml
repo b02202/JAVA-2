@@ -4,7 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_marginTop="16dp" />
     <Spinner
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -12,10 +16,21 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/submit"
-        android:id="@+id/button"
-        android:layout_gravity="right" />
+        android:text="@string/save_data"
+        android:id="@+id/save_button"
+        android:layout_gravity="right"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/load_data"
+        android:id="@+id/load_button"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
+
 
 </LinearLayout>

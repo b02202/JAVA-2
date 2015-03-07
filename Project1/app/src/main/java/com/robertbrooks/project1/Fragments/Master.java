@@ -2,24 +2,31 @@ package com.robertbrooks.project1.Fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.robertbrooks.project1.CustomData.Weather;
+import com.robertbrooks.project1.Libs.StorageManager;
+import com.robertbrooks.project1.MainActivity;
 import com.robertbrooks.project1.R;
 import com.robertbrooks.project1.RemoteConnection.HttpManager;
 import com.robertbrooks.project1.RemoteConnection.ParseJSON;
 
-import java.lang.reflect.Array;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,9 +41,12 @@ public class Master extends Fragment implements View.OnClickListener {
     private OnSubmitClickListener SListener;
 
     public Spinner mSpinner;
-    public Button mSubmit;
+    public Button mSaveButton;
+    public Button mLoadButton;
+    public EditText mUserInput;
     public String returnString;
     public ArrayList<String> infoArray = new ArrayList<>();
+    public ArrayAdapter<String> adapter;
     public List<aSyncTask> rTasks;
     public List<Weather> wList;
     public ProgressBar pb;
@@ -87,8 +97,11 @@ public class Master extends Fragment implements View.OnClickListener {
 
         View view = getView();
 
-        mSubmit = (Button) view.findViewById(R.id.button);
-        mSubmit.setOnClickListener(this);
+        mUserInput = (EditText) view.findViewById(R.id.editText);
+        mSaveButton = (Button) view.findViewById(R.id.save_button);
+        mLoadButton = (Button) view.findViewById(R.id.load_button);
+        mSaveButton.setOnClickListener(this);
+        mLoadButton.setOnClickListener(this);
         rTasks = new ArrayList<>();
         //String[] dropItems = getResources().getStringArray(R.array.items);
 
@@ -98,27 +111,55 @@ public class Master extends Fragment implements View.OnClickListener {
         addListener();
 
         // Create Spinner Array Adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+
+        adapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item);
 
-        infoArray.add("Search 1");
-        infoArray.add("Search 2");
+
+        /*infoArray.add("Search 2");
         infoArray.add("Search 3");
         infoArray.add("Search 4");
-        infoArray.add("Search 5");
+        infoArray.add("Search 5");*/
 
 
-        for (int i = 0; i < infoArray.size(); i++)
-        {
-            adapter.add(infoArray.get(i));
-            mSpinner.setAdapter(adapter);
-        }
     }
 
     @Override
     public void onClick(View v) {
 
-        updateDetail();
+        switch (v.getId()) {
+            case R.id.save_button:
+                String userInput = mUserInput.getText().toString();
+
+                try {
+                    StorageManager.saveData(userInput, getActivity().getApplicationContext());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                adapter.add(StorageManager.loadData(getActivity().getApplicationContext()));
+                mSpinner.setAdapter(adapter);
+                mUserInput.setText("");
+
+                break;
+            case R.id.load_button:
+                String savedData = null;
+                savedData = StorageManager.loadData(getActivity().getApplicationContext());
+                Log.i(TAG, "savedData = " + savedData);
+                SListener.populateDisplay(StorageManager.loadData(getActivity().getApplicationContext()));
+                break;
+        }
+
+        //infoArray.add(userInput);
+
+
+        /*for (int i = 0; i < infoArray.size(); i++)
+        {
+            adapter.add(infoArray.get(i));
+
+        }*/
+
+
+
     }
 
     // Get selected text for query
@@ -140,7 +181,7 @@ public class Master extends Fragment implements View.OnClickListener {
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                getSelText(position);
+               // getSelText(position);
             }
 
             @Override
