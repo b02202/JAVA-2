@@ -53,7 +53,7 @@ public class Detail extends Fragment {
     public void setDisplayText(String text)
     {
         getArguments().putString(ARG_TEXT, text);
-        TextView textView = (TextView) getView().findViewById(R.id.textView);
+        TextView textView = (TextView) getView().findViewById(R.id.textView1);
         textView.setText(text);
     }
 }
