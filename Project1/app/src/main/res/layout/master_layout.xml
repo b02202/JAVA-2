@@ -8,12 +8,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_marginTop="16dp" />
-    <Spinner
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_gravity="center_horizontal" />
+        android:layout_marginTop="16dp"
+        android:text="Enter Text HEre" />
+
 
     <Button
         android:layout_width="fill_parent"
@@ -31,6 +28,12 @@
         android:id="@+id/load_button"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_view"
+        android:layout_gravity="center_horizontal" />
+
 
 
 </LinearLayout>
