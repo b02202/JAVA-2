@@ -1,3 +1,6 @@
+/*Robert Brooks
+* Weather.java*/
+
 package com.robertbrooks.project1.CustomData;
 
 import java.io.Serializable;

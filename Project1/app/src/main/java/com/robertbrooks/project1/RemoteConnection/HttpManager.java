@@ -1,3 +1,6 @@
+/*Robert Brooks
+HttpManager.java*/
+
 package com.robertbrooks.project1.RemoteConnection;
 
 import java.io.BufferedReader;
