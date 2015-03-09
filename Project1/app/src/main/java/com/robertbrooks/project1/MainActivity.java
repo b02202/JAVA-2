@@ -5,6 +5,7 @@ package com.robertbrooks.project1;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.ActionBarActivity;
@@ -26,7 +27,10 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Network Check
         if (isOnline() == true) {
+
+            // load Master Fragment to container 2
             if (savedInstanceState == null)
             {
                 Master frag = Master.newInstance();
@@ -35,6 +39,7 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
                         .replace(R.id.container1, frag, Master.TAG).commit();
             }
         } else {
+            // No internet connection alert
             new AlertDialog.Builder(this)
                     .setTitle("No Internet Connection")
                     .setMessage("If this is the first time using this application, an internet connection must be present. If you have run this application before your saved data will display")
@@ -54,8 +59,8 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
 
     @Override
     public void populateDisplay(String text){
-        Log.i(TAG, "Dipslaying" + text);
-
+        Log.i(TAG, "Displaying: " + text);
+        // Load detail fragment to container 2
         Detail frag = (Detail) getFragmentManager().findFragmentByTag(Detail.TAG);
 
         if(frag == null)
@@ -69,9 +74,8 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
         }
     }
 
-    // OpenWeatherMap API Key: be1b038d00d2a039863446fdd8a17c7b
 
-    // Network Check
+
     // Network Check
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);

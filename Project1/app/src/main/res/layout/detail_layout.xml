@@ -4,12 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+   <TextView
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="Current Conditions"
+       android:layout_margin="40dp"
+       android:textColor="#ff365dff"
+       android:textSize="@dimen/abc_text_size_large_material"
+       android:layout_marginTop="50dp" />
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:text="New Text"
         android:id="@+id/textView1"
         android:layout_gravity="center_horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#ff000000"
+        android:textSize="20dp" />
 </LinearLayout>

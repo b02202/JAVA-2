@@ -4,23 +4,13 @@
 package com.robertbrooks.project1.Libs;
 
 import android.content.Context;
-
-import com.robertbrooks.project1.Fragments.Master;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Created by Bob on 3/4/2015.
@@ -43,7 +33,7 @@ public class StorageManager {
     public static String readData(String dataString, Context context) throws FileNotFoundException {
         String results = "";
 
-        // add check to see if file is not known
+
         try {
             FileInputStream fileInputStream = context.openFileInput(dataString);
             results = IOUtils.toString(fileInputStream);
@@ -80,8 +70,6 @@ public class StorageManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //for (int i = 0)
         return current;
     }
 

@@ -11,7 +11,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,29 +20,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.robertbrooks.project1.CustomData.Weather;
 import com.robertbrooks.project1.Libs.StorageManager;
-import com.robertbrooks.project1.MainActivity;
 import com.robertbrooks.project1.R;
 import com.robertbrooks.project1.RemoteConnection.HttpManager;
 import com.robertbrooks.project1.RemoteConnection.ParseJSON;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-// https://www.youtube.com/watch?v=TdC0OCtkHwQ&feature=youtu.be
 /**
  * Created by Bob on 3/2/2015.
  */
@@ -57,8 +50,6 @@ public class Master extends Fragment implements View.OnClickListener {
     public Button mSaveButton;
     public ListView mListView;
     public String selText;
-
-
 
     public static Master newInstance() {
         Master frag = new Master();
@@ -105,10 +96,8 @@ public class Master extends Fragment implements View.OnClickListener {
 
         // Get Filenames:
         getFilenames();
+        // add listener to listView
         addListener();
-
-
-
     }
 
     @Override
@@ -117,15 +106,19 @@ public class Master extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.save_button:
                 if (isOnline()) {
+                    // zip code validation
                     if (zipCheck(mUserInput.getText().toString()))
                     {
                         try {
+                            // write to internal file
                             StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                        SListener.populateDisplay("Save worked");
+                        Toast.makeText(getActivity(), "Zip Code has been saved", Toast.LENGTH_LONG).show();
+                        mUserInput.setText("");
                         getFilenames();
+
                     } else {
                         new AlertDialog.Builder(getActivity())
                                 .setTitle("OOPS!")
@@ -133,7 +126,6 @@ public class Master extends Fragment implements View.OnClickListener {
                                 .setPositiveButton("OK", null)
                                 .show();
                     }
-
                 } else {
                     new AlertDialog.Builder(getActivity())
                             .setTitle("OOPS!")
@@ -142,7 +134,6 @@ public class Master extends Fragment implements View.OnClickListener {
                             .show();
                 }
                 break;
-
         }
     }
 
@@ -153,6 +144,7 @@ public class Master extends Fragment implements View.OnClickListener {
         List<Weather> list = new ArrayList<>();
         Weather weather = new Weather();
 
+        // Add filenames to Arraylist
         for (int i = 0; i < fileNames.length; i++) {
             Log.d("Filename", fileNames[i]);
             weather.setZip(fileNames[i]);
@@ -160,11 +152,12 @@ public class Master extends Fragment implements View.OnClickListener {
             list.add(weather);
             String data = list.get(i).getZip();
             String temp = list.get(i).getTemp();
+            // add data to adapter
             adapter.add(data);
-            SListener.populateDisplay(temp);
+
+            //SListener.populateDisplay(temp);
 
         }
-
         mListView.setAdapter(adapter);
     }
 
@@ -203,12 +196,8 @@ public class Master extends Fragment implements View.OnClickListener {
                 }
 
                 Log.d(TAG, "Position Text: " + selText);
-
-
             }
         });
-
-
     }
 
     // Network Check
@@ -226,20 +215,16 @@ public class Master extends Fragment implements View.OnClickListener {
     // AsyncTask
     private class ATask extends AsyncTask<String, String, String> {
 
-
-
         @Override
         protected String doInBackground(String... params) {
             // Get String from HttpURLConnection
             String content = HttpManager.getData(params[0]);
             return content;
         }
-
         @Override
         protected void onPostExecute(String result) {
             // Parse JSON
             wList = ParseJSON.parse(result);
-
             // create JSONArray and JSON Object to store current conditions data
             JSONArray data = new JSONArray();
             JSONObject zip;
@@ -290,5 +275,4 @@ public class Master extends Fragment implements View.OnClickListener {
            return false;
        }
    }
-
 }
