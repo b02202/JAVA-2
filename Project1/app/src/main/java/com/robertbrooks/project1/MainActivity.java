@@ -2,9 +2,11 @@
 * MainActivity.java*/
 package com.robertbrooks.project1;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -18,14 +20,16 @@ import com.robertbrooks.project1.Fragments.Detail;
 import com.robertbrooks.project1.Fragments.Master;
 
 
-public class MainActivity extends Activity implements Master.OnSubmitClickListener {
+public class MainActivity extends ActionBarActivity implements Master.OnSubmitClickListener {
 
     final String TAG = "Project 1";
+    private static final int REQUEST_CODE = 9119;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         // Network Check
         if (isOnline() == true) {
@@ -54,9 +58,27 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
                         .replace(R.id.container2, frag, Master.TAG).commit();
             }
         }
-
-
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent();
+            intent.setClass(this, MyPrefsActivity.class );
+            startActivityForResult(intent, 9119); // turn number into constant
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public void populateDisplay(String text){
@@ -88,5 +110,6 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
             return false;
         }
     }
+
 
 }
