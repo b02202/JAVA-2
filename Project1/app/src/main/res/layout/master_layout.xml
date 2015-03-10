@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp" />
+
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,19 +30,12 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
-    <!--<Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/load_data"
-        android:id="@+id/load_button"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp" />-->
+
     <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_view"
         android:layout_gravity="center_horizontal" />
-
 
 
 </LinearLayout>

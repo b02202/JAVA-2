@@ -14,9 +14,12 @@ public class Weather implements Serializable {
 
 
     private String temp;
-    //private String forecast;
+    private String CurrentCond;
+    private String cityName;
     //private String something;
     private String zip;
+
+
 
 
     // Getters / Setters
@@ -34,6 +37,22 @@ public class Weather implements Serializable {
 
     public void setTemp(String temp) {
         this.temp = temp;
+    }
+
+    public String getCurrentCond() {
+        return CurrentCond;
+    }
+
+    public void setCurrentCond(String currentCond) {
+        CurrentCond = currentCond;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 
 }

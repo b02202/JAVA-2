@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,6 +51,8 @@ public class Master extends Fragment implements View.OnClickListener {
     public Button mSaveButton;
     public ListView mListView;
     public String selText;
+    public ProgressBar mPB;
+    List<ATask> tasks;
 
     public static Master newInstance() {
         Master frag = new Master();
@@ -93,6 +96,11 @@ public class Master extends Fragment implements View.OnClickListener {
         mSaveButton.setOnClickListener(this);
         mUserInput = (EditText) view.findViewById(R.id.editText);
         mListView = (ListView) view.findViewById(R.id.list_view);
+        mPB = (ProgressBar) view.findViewById(R.id.progressBar);
+        mPB.setVisibility(View.INVISIBLE);
+        // Create ArrayList for AsyncTasks
+        tasks = new ArrayList<>();
+
 
         // Get Filenames:
         getFilenames();
@@ -216,6 +224,17 @@ public class Master extends Fragment implements View.OnClickListener {
     private class ATask extends AsyncTask<String, String, String> {
 
         @Override
+        protected void onPreExecute() {
+            // Set progress bar to visible
+            if (tasks.size() == 0)
+            {
+                mPB.setVisibility(View.VISIBLE);
+            }
+            // Add task to ArrayList
+            tasks.add(this);
+        }
+
+        @Override
         protected String doInBackground(String... params) {
             // Get String from HttpURLConnection
             String content = HttpManager.getData(params[0]);
@@ -231,7 +250,7 @@ public class Master extends Fragment implements View.OnClickListener {
             if (wList != null) {
                 for (Weather weather : wList) {
 
-                    String currentC = weather.getTemp();
+                    String currentC = (weather.getCityName() +", USA \n \n" + weather.getTemp() + "\n" + "\n" + weather.getCurrentCond());
                     zip = new JSONObject();
                     try {
                         zip.put("current", currentC);
@@ -253,6 +272,12 @@ public class Master extends Fragment implements View.OnClickListener {
                     // populate textView with current condition
                     SListener.populateDisplay(currentC);
                 }
+
+            }
+            tasks.remove(this);
+            if (tasks.size() == 0)
+            {
+                mPB.setVisibility(View.INVISIBLE);
             }
         }
     }

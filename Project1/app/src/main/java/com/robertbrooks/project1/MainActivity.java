@@ -30,13 +30,14 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
         // Network Check
         if (isOnline() == true) {
 
-            // load Master Fragment to container 2
+            // load Master Fragment to container 1
             if (savedInstanceState == null)
             {
                 Master frag = Master.newInstance();
 
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container1, frag, Master.TAG).commit();
+                        .replace(R.id.container2, frag, Master.TAG)
+                        .commit();
             }
         } else {
             // No internet connection alert
@@ -50,7 +51,7 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
                 Master frag = Master.newInstance();
 
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container1, frag, Master.TAG).commit();
+                        .replace(R.id.container2, frag, Master.TAG).commit();
             }
         }
 
@@ -67,7 +68,7 @@ public class MainActivity extends Activity implements Master.OnSubmitClickListen
         {
             frag = Detail.newInstance(text);
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container2, frag, Detail.TAG)
+                    .replace(R.id.container1, frag, Detail.TAG)
                     .commit();
         } else {
             frag.setDisplayText(text);

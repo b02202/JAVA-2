@@ -25,6 +25,7 @@ public class ParseJSON {
         try{
             // get complete JSON object from Weather Source
             JSONObject data = new JSONObject(content);
+            JSONObject mainObj = data.getJSONObject("main");
             // create JSON Array from data JSON object
             JSONArray weatherArray = data.getJSONArray("weather");
             // Create Weather class arrayList
@@ -32,8 +33,15 @@ public class ParseJSON {
 
             JSONObject JSONWeather = weatherArray.getJSONObject(0);
             Weather weather = new Weather();
-            weather.setTemp(JSONWeather.getString("description"));
-            Log.i(TAG, "OBJ = " + JSONWeather.get("description"));
+
+            int temp = mainObj.getInt("temp");
+            double fConv = Math.round((temp - 273.15) * 1.8000 + 32.00);
+            int tempInt = (int)(fConv);
+
+            String tempString = Integer.toString(tempInt) + "˚F";
+            weather.setTemp(tempString);
+            weather.setCurrentCond(JSONWeather.getString("description"));
+            weather.setCityName(data.getString("name"));
             weatherList.add(weather);
 
             return weatherList;
