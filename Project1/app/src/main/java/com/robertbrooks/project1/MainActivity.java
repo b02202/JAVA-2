@@ -7,14 +7,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.robertbrooks.project1.Fragments.Detail;
 import com.robertbrooks.project1.Fragments.Master;
@@ -79,6 +82,16 @@ public class MainActivity extends ActionBarActivity implements Master.OnSubmitCl
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 9119) {
+            SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean pref1 = myPrefs.getBoolean("pref1", false);
+            Toast.makeText(this, "Preference: " + pref1, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void populateDisplay(String text){
