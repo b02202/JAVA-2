@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 
 import com.robertbrooks.project1.CustomData.Weather;
 import com.robertbrooks.project1.Libs.StorageManager;
+import com.robertbrooks.project1.NetworkFileHelper;
 import com.robertbrooks.project1.R;
 import com.robertbrooks.project1.RemoteConnection.HttpManager;
 import com.robertbrooks.project1.RemoteConnection.ParseJSON;
@@ -61,6 +62,8 @@ public class Master extends Fragment implements View.OnClickListener {
     public int bgColor;
     List<ATask> tasks;
     SharedPreferences myPrefs;
+    NetworkFileHelper nFH;
+    Boolean isOnline;
 
     public static Master newInstance() {
         Master frag = new Master();
@@ -100,6 +103,9 @@ public class Master extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
+        // Network Check References:
+        nFH = new NetworkFileHelper(getActivity().getApplicationContext());
+        isOnline = nFH.isOnline();
         // References:
         mSaveButton = (Button) view.findViewById(R.id.save_button);
         mSaveButton.setOnClickListener(this);
@@ -127,23 +133,23 @@ public class Master extends Fragment implements View.OnClickListener {
         mSaveButton.setBackgroundColor(bgColor);
         mUserInput.setBackgroundColor(bgColor);
         mListView.setBackgroundColor(bgColor);
-        //listText.setBackgroundColor(bgColor);
-
-
     }
 
     @Override
     public void onClick(View v) {
+        // Network Check
+        nFH = new NetworkFileHelper(getActivity().getApplicationContext());
+        isOnline = nFH.isOnline();
 
         switch (v.getId()) {
             case R.id.save_button:
-                if (isOnline()) {
+                if (isOnline) {
                     // zip code validation
                     if (zipCheck(mUserInput.getText().toString()))
                     {
                         try {
                             // write to internal file
-                            StorageManager.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
+                            NetworkFileHelper.writeToFile(mUserInput.getText().toString(), getActivity().getApplicationContext());
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -226,7 +232,7 @@ public class Master extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "Position: " + position);
                 selText = (String) parent.getItemAtPosition(position);
-                if (isOnline()) {
+                if (isOnline) {
                     // Create String Query
                     // http://api2.worldweatheronline.com/free/v2/weather.ashx?q=22152&format=json&num_of_days=0&key=a5516dc9365b98e1faea4e7759fb9
                    // String baseUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
@@ -250,7 +256,7 @@ public class Master extends Fragment implements View.OnClickListener {
         });
     }
 
-    // Network Check
+   /* // Network Check
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
@@ -260,7 +266,7 @@ public class Master extends Fragment implements View.OnClickListener {
 
             return false;
         }
-    }
+    }*/
 
     // AsyncTask
     private class ATask extends AsyncTask<String, String, String> {
@@ -279,14 +285,14 @@ public class Master extends Fragment implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
             // Get String from HttpURLConnection
-            String content = HttpManager.getData(params[0]);
+            String content = NetworkFileHelper.getData(params[0]);
             return content;
         }
         @Override
         protected void onPostExecute(String result) {
             // Parse JSON
             if (result != null) {
-                wList = ParseJSON.parse(result);
+                wList = NetworkFileHelper.parse(result);
                 // create JSONArray and JSON Object to store current conditions data
                 JSONArray data = new JSONArray();
                 JSONObject zip;
@@ -308,7 +314,7 @@ public class Master extends Fragment implements View.OnClickListener {
                                 .show();
                         // Save to JSONArray to internal storage
                         try {
-                            StorageManager.createJSONFile(data, selText, getActivity().getApplicationContext());
+                            NetworkFileHelper.createJSONFile(data, selText, getActivity().getApplicationContext());
                         } catch (JSONException | IOException e) {
                             e.printStackTrace();
                         }
@@ -388,7 +394,7 @@ public class Master extends Fragment implements View.OnClickListener {
         try {
             String lData = null;
             try {
-                lData = StorageManager.readJSONFile(selText, getActivity().getApplicationContext());
+                lData = NetworkFileHelper.readJSONFile(selText, getActivity().getApplicationContext());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

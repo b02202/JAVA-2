@@ -1,6 +1,9 @@
 package com.robertbrooks.project1;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.view.View;
 
 import com.robertbrooks.project1.CustomData.Weather;
 
@@ -24,6 +27,26 @@ import java.util.List;
  * Created by Bob on 3/14/2015.
  */
 public class NetworkFileHelper {
+
+    private Context _context;
+    public NetworkFileHelper(Context context) {
+        this._context = context;
+    }
+
+    // Network Check
+    public boolean isOnline() {
+        //ConnectivityManager cm1 = (ConnectivityManager)  ;
+        ConnectivityManager cm = (ConnectivityManager) _context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
+
+
 
     // HTTP Manager
     public static String getData(String urlString)
@@ -162,5 +185,6 @@ public class NetworkFileHelper {
         }
         return current;
     }
+
 }
 

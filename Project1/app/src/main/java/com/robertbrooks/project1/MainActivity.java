@@ -65,8 +65,9 @@ public static final String appPrefs = "AppPrefs";
 
 
         // Network Check
-        if (isOnline() == true) {
-
+        NetworkFileHelper nFH = new NetworkFileHelper(getApplicationContext());
+        Boolean isOnline = nFH.isOnline();
+        if (isOnline) {
             // load Master Fragment to container 1
             if (savedInstanceState == null)
             {
@@ -164,7 +165,7 @@ public static final String appPrefs = "AppPrefs";
 
     // Custom Functions:
 
-    // Network Check
+    /*// Network Check
     protected boolean isOnline() {
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = cm.getActiveNetworkInfo();
@@ -174,7 +175,7 @@ public static final String appPrefs = "AppPrefs";
 
             return false;
         }
-    }
+    }*/
 
     // Set Text Color
     public void setTextColor(int colorInt, String prefValue) {
