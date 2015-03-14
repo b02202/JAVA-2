@@ -1,17 +1,16 @@
+/*NetworkFileHelper.java
+* Robert Brooks */
+
 package com.robertbrooks.project1;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.View;
-
 import com.robertbrooks.project1.CustomData.Weather;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -45,8 +44,6 @@ public class NetworkFileHelper {
             return false;
         }
     }
-
-
 
     // HTTP Manager
     public static String getData(String urlString)

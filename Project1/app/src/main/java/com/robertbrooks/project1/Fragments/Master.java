@@ -6,15 +6,10 @@ package com.robertbrooks.project1.Fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import com.robertbrooks.project1.CustomData.Weather;
-import com.robertbrooks.project1.Libs.StorageManager;
 import com.robertbrooks.project1.NetworkFileHelper;
 import com.robertbrooks.project1.R;
-import com.robertbrooks.project1.RemoteConnection.HttpManager;
-import com.robertbrooks.project1.RemoteConnection.ParseJSON;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -298,12 +289,6 @@ public class Master extends Fragment implements View.OnClickListener {
                 }
             } else {
                 loadSData();
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Open Weather Map Not Available")
-                        .setMessage("Sorry for the inconvenience. Please try again later. ")
-                        .setPositiveButton("OK", null)
-                        .show();
-
             }
             tasks.remove(this);
             if (tasks.size() == 0)
@@ -331,23 +316,6 @@ public class Master extends Fragment implements View.OnClickListener {
            return false;
        }
    }
-
-    // Shared Preferences:
-    /*public void setPref() {
-
-
-        myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
-        if (listText != null) {
-            listText.setTextColor(colorPref);
-            mSaveButton.setTextColor(colorPref);
-            mUserInput.setTextColor(colorPref);
-            mUserInput.setHintTextColor(colorPref);
-            int lColor = listText.getCurrentTextColor();
-            Log.i(TAG, "List Color =" + lColor );
-        }
-    }*/
 
     // set listView Test color
     public void setListTextColor(int PrefColor) {

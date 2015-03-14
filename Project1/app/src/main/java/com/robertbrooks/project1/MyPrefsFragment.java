@@ -1,7 +1,8 @@
+/*MyPrefsFragment.java
+* Robert Brooks*/
 package com.robertbrooks.project1;
 
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 

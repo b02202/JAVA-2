@@ -1,3 +1,6 @@
+/*MyPrefsActivity.java
+* Robert Brooks*/
+
 package com.robertbrooks.project1;
 
 import android.app.Activity;

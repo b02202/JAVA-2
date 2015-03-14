@@ -2,26 +2,17 @@
 * MainActivity.java*/
 package com.robertbrooks.project1;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +22,8 @@ import com.robertbrooks.project1.Fragments.Master;
 
 public class MainActivity extends ActionBarActivity implements Master.OnSubmitClickListener {
 
-public static final String appPrefs = "AppPrefs";
     final String TAG = "Project 1";
     private static final int REQUEST_CODE = 9119;
-    //SharedPreferences myPrefs;
-    public static final String Color = "colorKey";
-    public int lColor;
     public String prefString;
 
     TextView detailText;
