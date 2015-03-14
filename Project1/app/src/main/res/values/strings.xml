@@ -7,11 +7,19 @@
     <string name="save_data">Save</string>
     <string name="load_data">Load</string>
 
-    <string-array name="items">
-        <item>Search 1</item>
-        <item>Search 2</item>
-        <item>Search 3</item>
-        <item>Search 4</item>
-        <item>Search 5</item>
+    <string-array name="pref_entries">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
     </string-array>
+
+    <string-array name="pref_values">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Blue</item>
+        <item>Green</item>
+    </string-array>
+
+
 </resources>

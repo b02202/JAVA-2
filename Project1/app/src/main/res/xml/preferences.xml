@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="Category A">
-        <CheckBoxPreference
-            android:key="pref1"
-            android:title="Preference 1"/>
+
+        <Preference
+            android:key="PREF_CLICK"
+            android:summary="Clickable preference screen"
+            android:title="Click Preference"/>
+        <ListPreference
+            android:key="PREF_LIST"
+            android:summary="Preference that displays list of values"
+            android:title="List Preference"
+            android:entries="@array/pref_entries"
+            android:entryValues="@array/pref_values"
+            android:defaultValue="Default"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

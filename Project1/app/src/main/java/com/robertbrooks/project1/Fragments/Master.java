@@ -7,10 +7,14 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +25,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,7 +57,9 @@ public class Master extends Fragment implements View.OnClickListener {
     public ListView mListView;
     public String selText;
     public ProgressBar mPB;
+    public TextView listText;
     List<ATask> tasks;
+    SharedPreferences myPrefs;
 
     public static Master newInstance() {
         Master frag = new Master();
@@ -63,6 +70,7 @@ public class Master extends Fragment implements View.OnClickListener {
     public interface OnSubmitClickListener {
 
         public void populateDisplay(String text);
+
     }
 
     // onAttach
@@ -91,16 +99,16 @@ public class Master extends Fragment implements View.OnClickListener {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View view = getView();
-        //EditText mUserInput = (EditText) view.findViewById(R.id.editText);
+        // References:
         mSaveButton = (Button) view.findViewById(R.id.save_button);
         mSaveButton.setOnClickListener(this);
         mUserInput = (EditText) view.findViewById(R.id.editText);
         mListView = (ListView) view.findViewById(R.id.list_view);
+        listText = (TextView) view.findViewById(R.id.list_style);
         mPB = (ProgressBar) view.findViewById(R.id.progressBar);
         mPB.setVisibility(View.INVISIBLE);
         // Create ArrayList for AsyncTasks
         tasks = new ArrayList<>();
-
 
         // Get Filenames:
         getFilenames();
@@ -146,8 +154,27 @@ public class Master extends Fragment implements View.OnClickListener {
     }
 
     // custom functions
+
+    // get filenames and display in listView
     public void getFilenames() {
-        ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1);
+
+       // ArrayAdapter adapter = new ArrayAdapter<String>(getActivity(), R.layout.custom_adapter);
+        ArrayAdapter adapter2 = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1) {
+          @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+              myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+              int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
+              View view = super.getView(position, convertView, parent);
+              TextView text = (TextView) view.findViewById(android.R.id.text1);
+              if (text != null) {
+                  text.setTextColor(colorPref);
+              }
+              return view;
+          }
+
+        };
+
+
         String[] fileNames = getActivity().getApplicationContext().fileList();
         List<Weather> list = new ArrayList<>();
         Weather weather = new Weather();
@@ -159,14 +186,17 @@ public class Master extends Fragment implements View.OnClickListener {
 
             list.add(weather);
             String data = list.get(i).getZip();
-            String temp = list.get(i).getTemp();
+            //String temp = list.get(i).getTemp();
             // add data to adapter
-            adapter.add(data);
-
-            //SListener.populateDisplay(temp);
-
+            adapter2.add(data);
+            adapter2.notifyDataSetChanged();
         }
-        mListView.setAdapter(adapter);
+        mListView.setAdapter(adapter2);
+        // set pref
+        setPref();
+
+
+
     }
 
     // add listener to listView
@@ -178,29 +208,21 @@ public class Master extends Fragment implements View.OnClickListener {
                 selText = (String) parent.getItemAtPosition(position);
                 if (isOnline()) {
                     // Create String Query
-                    String baseUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+                    // http://api2.worldweatheronline.com/free/v2/weather.ashx?q=22152&format=json&num_of_days=0&key=a5516dc9365b98e1faea4e7759fb9
+                   // String baseUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
+                    String baseUrl1 = "http://api2.worldweatheronline.com/free/v2/weather.ashx?q=";
                     String queryString = selText;
-                    String searchString = baseUrl + queryString;
+                    String baseUrl2 = "&format=json&num_of_days=0&key=a5516dc9365b98e1faea4e7759fb9";
+                    //String testUrl = "http://api.openweathermap.org/data/2.5/weather?q=charlotte";
+
+                    String searchString = baseUrl1 + queryString + baseUrl2;
                     // Run AsyncTask
                     runTask(searchString);
 
                 }
                 else {
                     // Load data from local storage
-                    try {
-                        String lData = null;
-                        try {
-                            lData = StorageManager.readJSONFile(selText, getActivity().getApplicationContext());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d(TAG, "Populated by saved json: " + lData);
-                        SListener.populateDisplay(lData);
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    }
-
-                    Toast.makeText(getActivity(), "Displaying weather conditions from last successful search", Toast.LENGTH_LONG).show();
+                    loadSData();
                 }
 
                 Log.d(TAG, "Position Text: " + selText);
@@ -243,35 +265,45 @@ public class Master extends Fragment implements View.OnClickListener {
         @Override
         protected void onPostExecute(String result) {
             // Parse JSON
-            wList = ParseJSON.parse(result);
-            // create JSONArray and JSON Object to store current conditions data
-            JSONArray data = new JSONArray();
-            JSONObject zip;
-            if (wList != null) {
-                for (Weather weather : wList) {
+            if (result != null) {
+                wList = ParseJSON.parse(result);
+                // create JSONArray and JSON Object to store current conditions data
+                JSONArray data = new JSONArray();
+                JSONObject zip;
+                if (wList != null) {
+                    for (Weather weather : wList) {
 
-                    String currentC = (weather.getCityName() +", USA \n \n" + weather.getTemp() + "\n" + "\n" + weather.getCurrentCond());
-                    zip = new JSONObject();
-                    try {
-                        zip.put("current", currentC);
-                        data.put(zip);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        String currentC = (weather.getCityName() + ", USA \n \n" + weather.getTemp() + "\n" + "\n" + weather.getCurrentCond());
+                        zip = new JSONObject();
+                        try {
+                            zip.put("current", currentC);
+                            data.put(zip);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle(currentC)
+                                .setMessage(currentC)
+                                .setPositiveButton("OK", null)
+                                .show();
+                        // Save to JSONArray to internal storage
+                        try {
+                            StorageManager.createJSONFile(data, selText, getActivity().getApplicationContext());
+                        } catch (JSONException | IOException e) {
+                            e.printStackTrace();
+                        }
+                        // populate textView with current condition
+                        SListener.populateDisplay(currentC);
                     }
-                    new AlertDialog.Builder(getActivity())
-                            .setTitle(currentC)
-                            .setMessage(currentC)
-                            .setPositiveButton("OK", null)
-                            .show();
-                    // Save to JSONArray to internal storage
-                    try {
-                        StorageManager.createJSONFile(data, selText, getActivity().getApplicationContext());
-                    } catch (JSONException | IOException e) {
-                        e.printStackTrace();
-                    }
-                    // populate textView with current condition
-                    SListener.populateDisplay(currentC);
+
                 }
+            } else {
+                loadSData();
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Open Weather Map Not Available")
+                        .setMessage("Sorry for the inconvenience. Please try again later. ")
+                        .setPositiveButton("OK", null)
+                        .show();
 
             }
             tasks.remove(this);
@@ -300,4 +332,53 @@ public class Master extends Fragment implements View.OnClickListener {
            return false;
        }
    }
+
+    // Shared Preferences:
+    public void setPref() {
+
+
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
+        int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
+        if (listText != null) {
+            listText.setTextColor(colorPref);
+            mSaveButton.setTextColor(colorPref);
+            mUserInput.setTextColor(colorPref);
+            mUserInput.setHintTextColor(colorPref);
+            int lColor = listText.getCurrentTextColor();
+            Log.i(TAG, "List Color =" + lColor );
+        }
+    }
+
+    // getList
+    public void setListTextColor(int PrefColor) {
+        //SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        //int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
+        if (listText != null) {
+            listText.setTextColor(PrefColor);
+            int lColor = listText.getCurrentTextColor();
+            Log.i(TAG, "List Color =" + lColor );
+        }
+        getFilenames();
+        //setPref();
+    }
+
+    // Load saved data
+    public void loadSData() {
+        try {
+            String lData = null;
+            try {
+                lData = StorageManager.readJSONFile(selText, getActivity().getApplicationContext());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Log.d(TAG, "Populated by saved json: " + lData);
+            SListener.populateDisplay(lData);
+            getFilenames();
+            setPref();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Toast.makeText(getActivity(), "Displaying weather conditions from last successful search", Toast.LENGTH_LONG).show();
+    }
 }

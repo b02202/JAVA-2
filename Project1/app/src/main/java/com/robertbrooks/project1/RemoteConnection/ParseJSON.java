@@ -24,24 +24,31 @@ public class ParseJSON {
         final String TAG = "ParseJSON";
         try{
             // get complete JSON object from Weather Source
-            JSONObject data = new JSONObject(content);
-            JSONObject mainObj = data.getJSONObject("main");
-            // create JSON Array from data JSON object
-            JSONArray weatherArray = data.getJSONArray("weather");
+            JSONObject baseOBJ = new JSONObject(content);
+            // get "data" object
+            JSONObject data = baseOBJ.getJSONObject("data");
+            // get "current condition array from "data"
+            JSONArray currentCArr = data.getJSONArray("current_condition");
             // Create Weather class arrayList
             List<Weather> weatherList = new ArrayList<>();
-
-            JSONObject JSONWeather = weatherArray.getJSONObject(0);
+            // get first object from "current condition" array
+            JSONObject JSONWeather = currentCArr.getJSONObject(0);
+            // get weatherDesc array from "current_condition" object
+            JSONArray weatherDesc = JSONWeather.getJSONArray("weatherDesc");
+            // get first object from "weatherDesc" array
+            JSONObject descObj = weatherDesc.getJSONObject(0);
+            JSONArray request = data.getJSONArray("request");
+            JSONObject reqObj = request.getJSONObject(0);
             Weather weather = new Weather();
 
-            int temp = mainObj.getInt("temp");
-            double fConv = Math.round((temp - 273.15) * 1.8000 + 32.00);
-            int tempInt = (int)(fConv);
+           // String temp = JSONWeather.getString("temp");
+            /*double fConv = Math.round((temp - 273.15) * 1.8000 + 32.00);
+            int tempInt = (int)(fConv);*/
 
-            String tempString = Integer.toString(tempInt) + "˚F";
-            weather.setTemp(tempString);
-            weather.setCurrentCond(JSONWeather.getString("description"));
-            weather.setCityName(data.getString("name"));
+            //String tempString = Integer.toString(tempInt) + "˚F";
+            weather.setTemp(JSONWeather.getString("temp_F") + "˚F");
+            weather.setCurrentCond(descObj.getString("value"));
+            weather.setCityName(reqObj.getString("query"));
             weatherList.add(weather);
 
             return weatherList;

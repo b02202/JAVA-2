@@ -1,6 +1,8 @@
 package com.robertbrooks.project1;
 
 import android.os.Bundle;
+import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 /**
@@ -15,4 +17,20 @@ public class MyPrefsFragment extends PreferenceFragment {
 
             addPreferencesFromResource(R.xml.preferences);
         }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        // get Pref using key
+        Preference preference = findPreference("PREF_CLICK");
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                // execute code
+
+                return true;
+            }
+        });
+    }
 }
