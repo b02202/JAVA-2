@@ -53,6 +53,17 @@ public static final String appPrefs = "AppPrefs";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // create sharedPreference for fragment background colors:
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        int masterColor = getResources().getColor(android.R.color.holo_blue_light);
+        int detailColor = getResources().getColor(android.R.color.holo_green_light);
+        SharedPreferences.Editor editor = myPrefs.edit();
+        editor.putInt("master_color", masterColor);
+        editor.putInt("detail_color", detailColor);
+        editor.commit(); // apply() can be used to write in background
+
+
+
         // Network Check
         if (isOnline() == true) {
 
@@ -106,73 +117,37 @@ public static final String appPrefs = "AppPrefs";
         super.onActivityResult(requestCode, resultCode, data);
         detailText = (TextView)findViewById(R.id.textView1);
         currentText = (TextView)findViewById(R.id.current_conditions);
-        //listText = (TextView)findViewById(R.id.list_style);
         listText = (TextView) findViewById(android.R.id.text1);
         saveButton = (Button)findViewById(R.id.save_button);
         editText = (EditText)findViewById(R.id.editText);
 
         // Shared Prefs
-        if(requestCode == 9119) {
-
+        if(REQUEST_CODE == 9119) {
            myPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-
             prefString = myPrefs.getString("PREF_LIST", "Default");
             int selectedColor = 0;
-
             if (prefString.equals("Default")) {
                 selectedColor = getResources().getColor(android.R.color.black);
-               // Toast.makeText(this, "Preference: " + prefString , Toast.LENGTH_LONG).show();
             } else if (prefString.equals("Red")) {
                 selectedColor = getResources().getColor(android.R.color.holo_red_dark);
-                //Toast.makeText(this, "Preference: " + prefString , Toast.LENGTH_LONG).show();
             } else if (prefString.equals("Blue")) {
                 selectedColor = getResources().getColor(android.R.color.holo_blue_dark);
-                //Toast.makeText(this, "Preference: " + prefString , Toast.LENGTH_LONG).show();
             } else if (prefString.equals("Green")) {
                 selectedColor = getResources().getColor(android.R.color.holo_green_dark);
-                //Toast.makeText(this, "Preference: " + prefString , Toast.LENGTH_LONG).show();
             }
-            //int dColor = detailText.getCurrentTextColor();
-            //lColor = listText.getCurrentTextColor();
             setTextColor(selectedColor, prefString);
-            //frag.setListTextColor(lColor);
-            //listText.setTextColor(dColor);
             SharedPreferences.Editor editor = myPrefs.edit();
             editor.putInt("color", selectedColor);
             editor.commit(); // apply() can be used to write in background
-            // TODO: Figure out why color is only changing for one list item
 
             Log.i(TAG, "Current Color Color: " + selectedColor);
-           // Log.i(TAG, "Current List Color: " + lColor);
-
-            // old
-            /*myPrefs = getSharedPreferences("PREF_LIST", Context.MODE_PRIVATE);
-
-            if (myPrefs.contains(Color)) {
-                detailText.setTextColor(myPrefs.getInt(Color, 0));
-                currentText.setTextColor(myPrefs.getInt(Color, 0));
-                listText.setTextColor(myPrefs.getInt(Color, 0));
-                saveButton.setTextColor(myPrefs.getInt(Color, 0));
-                //detailText.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
-            }
-            int saveColor =
-
-            SharedPreferences.Editor editor = myPrefs.edit();
-            editor.putInt()*/
-
-            //String prefTest = myPrefs.getString("PREF_LIST", "PREF_LIST");
         }
     }
-
-
-
-
-
 
     @Override
     public void populateDisplay(String text){
         Log.i(TAG, "Displaying: " + text);
-        // Load detail fragment to container 2
+        // Load detail fragment to container 1
         Detail frag1 = (Detail) getFragmentManager().findFragmentByTag(Detail.TAG);
 
         if(frag1 == null)
@@ -187,7 +162,7 @@ public static final String appPrefs = "AppPrefs";
     }
 
 
-
+    // Custom Functions:
 
     // Network Check
     protected boolean isOnline() {
@@ -209,7 +184,10 @@ public static final String appPrefs = "AppPrefs";
                  detailText.setTextColor(colorInt);
                  currentText.setTextColor(colorInt);
              }
+
+            if (frag != null) {
                 frag.setListTextColor(colorInt);
+            }
                 saveButton.setTextColor(colorInt);
                 editText.setTextColor(colorInt);
                 editText.setHintTextColor(colorInt);

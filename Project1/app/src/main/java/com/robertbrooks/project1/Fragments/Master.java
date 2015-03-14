@@ -58,6 +58,7 @@ public class Master extends Fragment implements View.OnClickListener {
     public String selText;
     public ProgressBar mPB;
     public TextView listText;
+    public int bgColor;
     List<ATask> tasks;
     SharedPreferences myPrefs;
 
@@ -109,11 +110,26 @@ public class Master extends Fragment implements View.OnClickListener {
         mPB.setVisibility(View.INVISIBLE);
         // Create ArrayList for AsyncTasks
         tasks = new ArrayList<>();
-
         // Get Filenames:
         getFilenames();
         // add listener to listView
         addListener();
+
+        // Shared Prefs - Text Color
+        myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        int colorP = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
+        mSaveButton.setTextColor(colorP);
+        mUserInput.setTextColor(colorP);
+        mUserInput.setHintTextColor(colorP);
+
+        // Shared Prefs - bg Color:
+        int bgColor = myPrefs.getInt("master_color", getResources().getColor(android.R.color.holo_blue_light));
+        mSaveButton.setBackgroundColor(bgColor);
+        mUserInput.setBackgroundColor(bgColor);
+        mListView.setBackgroundColor(bgColor);
+        //listText.setBackgroundColor(bgColor);
+
+
     }
 
     @Override
@@ -164,10 +180,13 @@ public class Master extends Fragment implements View.OnClickListener {
         public View getView(int position, View convertView, ViewGroup parent) {
               myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
               int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
+              bgColor = myPrefs.getInt("master_color", getResources().getColor(android.R.color.holo_green_light));
               View view = super.getView(position, convertView, parent);
               TextView text = (TextView) view.findViewById(android.R.id.text1);
+
               if (text != null) {
                   text.setTextColor(colorPref);
+                  text.setBackgroundColor(bgColor);
               }
               return view;
           }
@@ -192,6 +211,7 @@ public class Master extends Fragment implements View.OnClickListener {
             adapter2.notifyDataSetChanged();
         }
         mListView.setAdapter(adapter2);
+        //listText = TextView
         // set pref
         setPref();
 
