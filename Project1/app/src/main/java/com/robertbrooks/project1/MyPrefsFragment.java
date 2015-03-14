@@ -23,7 +23,7 @@ public class MyPrefsFragment extends PreferenceFragment {
         super.onActivityCreated(savedInstanceState);
 
         // get Pref using key
-        Preference preference = findPreference("PREF_CLICK");
+        Preference preference = findPreference("PREF_LIST");
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {

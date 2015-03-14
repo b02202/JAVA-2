@@ -163,19 +163,7 @@ public static final String appPrefs = "AppPrefs";
     }
 
 
-    // Custom Functions:
 
-    /*// Network Check
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }*/
 
     // Set Text Color
     public void setTextColor(int colorInt, String prefValue) {
@@ -192,7 +180,7 @@ public static final String appPrefs = "AppPrefs";
                 saveButton.setTextColor(colorInt);
                 editText.setTextColor(colorInt);
                 editText.setHintTextColor(colorInt);
-            Toast.makeText(this, "Preference: " + prefString, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Text Color Preference: " + prefString, Toast.LENGTH_LONG).show();
         }
     }
 }

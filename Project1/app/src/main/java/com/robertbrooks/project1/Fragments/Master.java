@@ -74,9 +74,7 @@ public class Master extends Fragment implements View.OnClickListener {
     public interface OnSubmitClickListener {
 
         public void populateDisplay(String text);
-
     }
-
     // onAttach
     @Override
     public void onAttach(Activity activity) {
@@ -97,8 +95,6 @@ public class Master extends Fragment implements View.OnClickListener {
     }
 
     // onActivityCreated
-
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -140,7 +136,6 @@ public class Master extends Fragment implements View.OnClickListener {
         // Network Check
         nFH = new NetworkFileHelper(getActivity().getApplicationContext());
         isOnline = nFH.isOnline();
-
         switch (v.getId()) {
             case R.id.save_button:
                 if (isOnline) {
@@ -211,18 +206,11 @@ public class Master extends Fragment implements View.OnClickListener {
 
             list.add(weather);
             String data = list.get(i).getZip();
-            //String temp = list.get(i).getTemp();
             // add data to adapter
             adapter2.add(data);
             adapter2.notifyDataSetChanged();
         }
         mListView.setAdapter(adapter2);
-        //listText = TextView
-        // set pref
-        setPref();
-
-
-
     }
 
     // add listener to listView
@@ -234,12 +222,9 @@ public class Master extends Fragment implements View.OnClickListener {
                 selText = (String) parent.getItemAtPosition(position);
                 if (isOnline) {
                     // Create String Query
-                    // http://api2.worldweatheronline.com/free/v2/weather.ashx?q=22152&format=json&num_of_days=0&key=a5516dc9365b98e1faea4e7759fb9
-                   // String baseUrl = "http://api.openweathermap.org/data/2.5/weather?q=";
                     String baseUrl1 = "http://api2.worldweatheronline.com/free/v2/weather.ashx?q=";
                     String queryString = selText;
                     String baseUrl2 = "&format=json&num_of_days=0&key=a5516dc9365b98e1faea4e7759fb9";
-                    //String testUrl = "http://api.openweathermap.org/data/2.5/weather?q=charlotte";
 
                     String searchString = baseUrl1 + queryString + baseUrl2;
                     // Run AsyncTask
@@ -255,18 +240,6 @@ public class Master extends Fragment implements View.OnClickListener {
             }
         });
     }
-
-   /* // Network Check
-    protected boolean isOnline() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-
-            return false;
-        }
-    }*/
 
     // AsyncTask
     private class ATask extends AsyncTask<String, String, String> {
@@ -360,7 +333,7 @@ public class Master extends Fragment implements View.OnClickListener {
    }
 
     // Shared Preferences:
-    public void setPref() {
+    /*public void setPref() {
 
 
         myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -374,9 +347,9 @@ public class Master extends Fragment implements View.OnClickListener {
             int lColor = listText.getCurrentTextColor();
             Log.i(TAG, "List Color =" + lColor );
         }
-    }
+    }*/
 
-    // getList
+    // set listView Test color
     public void setListTextColor(int PrefColor) {
         //SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         //int colorPref = myPrefs.getInt("color", getResources().getColor(android.R.color.black));
@@ -386,7 +359,6 @@ public class Master extends Fragment implements View.OnClickListener {
             Log.i(TAG, "List Color =" + lColor );
         }
         getFilenames();
-        //setPref();
     }
 
     // Load saved data
@@ -401,7 +373,7 @@ public class Master extends Fragment implements View.OnClickListener {
             Log.d(TAG, "Populated by saved json: " + lData);
             SListener.populateDisplay(lData);
             getFilenames();
-            setPref();
+            //setPref();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
