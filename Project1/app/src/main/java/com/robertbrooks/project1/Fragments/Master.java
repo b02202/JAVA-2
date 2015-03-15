@@ -271,11 +271,6 @@ public class Master extends Fragment implements View.OnClickListener {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        new AlertDialog.Builder(getActivity())
-                                .setTitle(currentC)
-                                .setMessage(currentC)
-                                .setPositiveButton("OK", null)
-                                .show();
                         // Save to JSONArray to internal storage
                         try {
                             NetworkFileHelper.createJSONFile(data, selText, getActivity().getApplicationContext());
