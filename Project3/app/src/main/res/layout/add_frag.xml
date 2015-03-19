@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/makeText"
+        android:layout_gravity="center_horizontal"
+        android:hint="Enter car make"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/modelText"
+        android:layout_gravity="center_horizontal"
+        android:hint="Enter car model"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/colorText"
+        android:layout_gravity="center_horizontal"
+        android:hint="Enter car color"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View All Cars"
+        android:id="@+id/saveButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="openActivity"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Car To List"
+        android:id="@+id/addButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="saveData"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:id="@+id/readButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="readData"/>
+</LinearLayout>
