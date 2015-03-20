@@ -19,4 +19,11 @@
         android:id="@+id/deleteButton"
         android:layout_gravity="center_horizontal"
         android:onClick="deleteData"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share Text"
+        android:id="@+id/shareButton"
+        android:layout_gravity="center_horizontal"
+        android:onClick="shareData"/>
 </LinearLayout>

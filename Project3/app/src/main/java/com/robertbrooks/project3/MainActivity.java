@@ -1,11 +1,12 @@
+/*MainActivity.java*/
 package com.robertbrooks.project3;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -19,8 +20,9 @@ public class MainActivity extends ActionBarActivity {
     AddFragment addFrag;
     ArrayList<CarData> cData;
     //public static String fileName = "carList";
-    String fileName;
+
     Bundle bObj;
+    String[] fileNames;
     private static String TAG = "Project3.TAG";
 
     @Override
@@ -28,7 +30,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bObj = new Bundle();
-        cData = new ArrayList<CarData>();
+        cData = new ArrayList<>();
+
+        fileNames = getApplicationContext().fileList();
 
         loadData();
 
@@ -58,7 +62,6 @@ public class MainActivity extends ActionBarActivity {
         TextView carColor = (TextView) findViewById(R.id.colorText);
 
         CarData carInfo = new CarData();
-        //cData = new ArrayList<>();
         String cMake = carMake.getText().toString();
         String cModel = carModel.getText().toString();
         String cColor = carColor.getText().toString();
@@ -74,28 +77,39 @@ public class MainActivity extends ActionBarActivity {
 
         bObj.putSerializable(carFile, cData);
 
+        carMake.setText("");
+        carModel.setText("");
+        carColor.setText("");
+
 
     }
 
 
     public void openActivity(View v) {
 
-        Intent intent = new Intent(this, ListActivity.class);
+        String[] fileArray = getApplicationContext().fileList();
+        if (fileArray.length != 0) {
+            Intent intent = new Intent(this, ListActivity.class);
 
-        for (int i = 0; i < cData.size();i++) {
-            String keyString = cData.get(i).getMake() + cData.get(i).getModel();
-            bObj.putSerializable(keyString, cData);
+            for (int i = 0; i < cData.size(); i++) {
+                String keyString = cData.get(i).getMake() + cData.get(i).getModel();
+                bObj.putSerializable(keyString, cData);
+            }
+            intent.putExtras(bObj);
+            startActivity(intent);
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("OOPS!")
+                    .setMessage("You must enter at least on car to view the list of cars")
+                    .setPositiveButton("OK", null)
+                    .show();
         }
-        intent.putExtras(bObj);
-        startActivity(intent);
+
     }
 
     public void loadData() {
 
-
         CarData carInfo;
-
-        String[] fileNames = getApplicationContext().fileList();
 
         if (fileNames.length != 0) {
 
@@ -106,13 +120,8 @@ public class MainActivity extends ActionBarActivity {
                 cData.add(carInfo);
 
             }
-
         }
 
     }
-
-
-
-
 
 }

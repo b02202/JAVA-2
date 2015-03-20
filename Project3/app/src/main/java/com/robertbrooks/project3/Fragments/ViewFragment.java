@@ -1,3 +1,4 @@
+/*ViewFragment.java*/
 package com.robertbrooks.project3.Fragments;
 
 import android.app.Fragment;
@@ -46,8 +47,6 @@ public class ViewFragment extends Fragment {
         deleteCar = (Button) view.findViewById(R.id.deleteButton);
         Intent intent = getActivity().getIntent();
         itemText = intent.getExtras().getString("itemText");
-        //fileName = intent.getExtras().getString("fileName");
-
         detailText.setText(itemText);
 
     }
