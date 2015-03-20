@@ -49,9 +49,5 @@ public class AddFragment extends Fragment {
 
     }
 
-    /*public void openActivity(View v) {
 
-        Intent intent = new Intent(getActivity(), android.app.ListActivity.class);
-        startActivity(intent);
-    }*/
 }
