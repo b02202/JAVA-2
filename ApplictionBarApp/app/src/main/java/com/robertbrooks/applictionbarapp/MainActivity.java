@@ -1,5 +1,6 @@
 package com.robertbrooks.applictionbarapp;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -34,6 +35,15 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
 
+        switch (item.getItemId()) {
+            case R.id.action_add:
+                Intent intent = new Intent(MainActivity.this, AddActivity.class );
+                startActivity(intent);
+                break;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
+
 }
