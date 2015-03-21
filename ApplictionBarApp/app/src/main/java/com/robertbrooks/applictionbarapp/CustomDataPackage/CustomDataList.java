@@ -9,12 +9,13 @@ import java.util.List;
 public class CustomDataList {
 
     private List<CustomData> dataArray = new ArrayList<CustomData>();
+
     public List<CustomData> getDataArray() {
         return dataArray;
     }
 
-    public CustomDataList(String addString) {
-        addItem(new CustomData(addString));
+    public CustomDataList(String item) {
+        addItem(new CustomData(item));
     }
 
     private void addItem(CustomData item) {
