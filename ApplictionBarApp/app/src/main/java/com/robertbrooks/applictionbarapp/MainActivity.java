@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomData;
 import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomDataList;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -25,11 +27,15 @@ public class MainActivity extends ActionBarActivity {
 
     ListView listView;
     String dataString;
+    List<CustomData> customDatas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // load listView
+        getFileNames();
 
 
 
@@ -67,18 +73,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // refresh List
 
-    /*public void refreshList() {
-
-        // loop through CustomData
-        for (final CustomData customData : customDatas) {
-            Intent intent = new Intent(MainActivity.this, AddActivity.class );
-            intent.putExtra("dataString", customData.dataString);
-            startActivityForResult(intent, REQUEST_CODE);
-        }
-
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -92,8 +87,14 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(this, dataString + " has been passed back from addActivity",
                         Toast.LENGTH_LONG).show();
                 Log.d(TAG, dataString + "has been received from addActivity");
-                List<CustomData> customDatas = new CustomDataList(dataString).getDataArray();
-                refreshList(customDatas);
+                // Save to file
+                try {
+                    StorageManager.writeToFile(dataString, getApplicationContext());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                getFileNames();
             }
 
         }
@@ -101,13 +102,35 @@ public class MainActivity extends ActionBarActivity {
 
     // create / Refresh ListView
 
-    public void refreshList(List<CustomData> dList) {
+    public void refreshList(ArrayAdapter arrayAdapter) {
 
         // Set List View
         listView = (ListView) findViewById(R.id.listView);
-        ArrayAdapter<CustomData> adapter = new ArrayAdapter<CustomData>(
-                this, android.R.layout.simple_list_item_1, dList);
-        listView.setAdapter(adapter);
+        /*ArrayAdapter<CustomData> adapter = new ArrayAdapter<CustomData>(
+                this, android.R.layout.simple_list_item_1, dList);*/
+
+        listView.setAdapter(arrayAdapter);
     }
+
+    // get current saved file names:
+    public void getFileNames() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                this, android.R.layout.simple_list_item_1);
+        List<CustomData> data = new ArrayList<>();
+        CustomData cData = new CustomData();
+        String[] fileNames = getApplicationContext().fileList();
+        for (int i = 0; i < fileNames.length; i++) {
+            cData.setDataString(fileNames[i]);
+            data.add(cData);
+            adapter.add(data.get(i).getDataString());
+        }
+        // set ListView
+        refreshList(adapter);
+
+    }
+
+//customDatas = new CustomDataList(fileString).getDataArray();
+
+
 
 }

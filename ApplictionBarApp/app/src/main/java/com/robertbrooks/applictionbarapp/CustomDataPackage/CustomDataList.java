@@ -14,10 +14,10 @@ public class CustomDataList {
         return dataArray;
     }
 
-    public CustomDataList(String item) {
+   /* public CustomDataList(String item) {
         addItem(new CustomData(item));
     }
-
+*/
     private void addItem(CustomData item) {
         dataArray.add(item);
     }

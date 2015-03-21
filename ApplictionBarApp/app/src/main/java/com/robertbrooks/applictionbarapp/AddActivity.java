@@ -1,5 +1,6 @@
 package com.robertbrooks.applictionbarapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomData;
 import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomDataList;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 /**
@@ -55,6 +57,7 @@ public class AddActivity extends ActionBarActivity{
             case R.id.action_save:
                 // get user Input
                 dataString = userInput.getText().toString();
+
                 Intent intent = new Intent();
                 intent.putExtra("dataString", dataString);
                 intent.putExtra("action", "add");
@@ -68,21 +71,3 @@ public class AddActivity extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 }
-/*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }*/

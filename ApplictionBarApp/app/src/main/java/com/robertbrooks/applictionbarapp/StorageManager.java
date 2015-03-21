@@ -27,8 +27,6 @@ public class StorageManager {
 
     public static String readData(String dataString, Context context) throws FileNotFoundException {
         String results = "";
-
-
         try {
             FileInputStream fileInputStream = context.openFileInput(dataString);
             results = IOUtils.toString(fileInputStream);
