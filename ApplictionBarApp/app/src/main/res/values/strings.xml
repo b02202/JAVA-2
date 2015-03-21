@@ -6,9 +6,6 @@
     <string name="add_option">Add</string>
     <string name="save_option">Save</string>
     <string-array name="listArray">
-        <item>Item 1</item>
-        <item>Item 2</item>
-        <item>Item 3</item>
-        <item>Item 4</item>
+        <item>No Items in List</item>
     </string-array>
 </resources>
