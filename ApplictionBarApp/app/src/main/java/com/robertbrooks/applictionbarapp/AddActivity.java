@@ -64,7 +64,9 @@ public class AddActivity extends ActionBarActivity{
                 setResult(RESULT_OK, intent);
                 finish();
 
-
+                break;
+            case R.id.action_reset:
+                userInput.setText("");
                 break;
         }
 

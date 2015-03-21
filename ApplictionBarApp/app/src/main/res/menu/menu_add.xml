@@ -11,4 +11,9 @@
         app:showAsAction="always"
         android:title="@string/save_option">
     </item>
+    <item android:id="@+id/action_reset"
+        android:orderInCategory="102"
+        app:showAsAction="never"
+        android:title="@string/refresh_option">
+    </item>
 </menu>
