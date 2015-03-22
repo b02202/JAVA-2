@@ -1,19 +1,22 @@
+/*MainActivity.java*/
 package com.robertbrooks.applictionbarapp;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomData;
-import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomDataList;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,22 +30,63 @@ public class MainActivity extends ActionBarActivity {
 
     ListView listView;
     String dataString;
-    List<CustomData> customDatas;
-
+    String selText;
+    private ActionMode cActionMode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        // References:
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // ActionMode
+                ActionModeCallback callback = new ActionModeCallback();
+                cActionMode = startActionMode(callback);
+                cActionMode.setTitle("Delete");
+                // get position text
+                selText = parent.getItemAtPosition(position).toString();
+                Log.d(TAG, "SelText: " + selText);
+                return true;
+            }
+        });
         // load listView
         getFileNames();
 
-
-
-
-
     }
+    // ActionMode Callback
+    class ActionModeCallback implements  ActionMode.Callback {
 
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+            return true;
+
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    //delete entry / refresh listView
+                    deleteEntry(selText);
+                    mode.finish();
+            }
+            return true;
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -69,11 +113,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(intent, REQUEST_CODE);
                 break;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -84,7 +125,7 @@ public class MainActivity extends ActionBarActivity {
             String action = data.getStringExtra("action");
 
             if (action.equals("add")) {
-                Toast.makeText(this, dataString + " has been passed back from addActivity",
+                Toast.makeText(this, dataString + " has been saved",
                         Toast.LENGTH_LONG).show();
                 Log.d(TAG, dataString + "has been received from addActivity");
                 // Save to file
@@ -101,14 +142,8 @@ public class MainActivity extends ActionBarActivity {
     }
 
     // create / Refresh ListView
-
     public void refreshList(ArrayAdapter arrayAdapter) {
-
         // Set List View
-        listView = (ListView) findViewById(R.id.listView);
-        /*ArrayAdapter<CustomData> adapter = new ArrayAdapter<CustomData>(
-                this, android.R.layout.simple_list_item_1, dList);*/
-
         listView.setAdapter(arrayAdapter);
     }
 
@@ -129,8 +164,15 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-//customDatas = new CustomDataList(fileString).getDataArray();
-
-
-
+    // delete entry
+    public void deleteEntry(String entryName) {
+        String dirString = getFilesDir().getAbsolutePath();
+        File file = new File(dirString, entryName);
+        boolean delete = file.delete();
+        if (delete) {
+            Toast.makeText(this, entryName + " " + "has been deleted", Toast.LENGTH_LONG).show();
+            //refresh list
+            getFileNames();
+        }
+    }
 }

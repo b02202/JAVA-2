@@ -1,18 +1,12 @@
+/*AddActivity.java*/
 package com.robertbrooks.applictionbarapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-
-import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomData;
-import com.robertbrooks.applictionbarapp.CustomDataPackage.CustomDataList;
-
-import java.io.FileNotFoundException;
-import java.util.List;
 
 /**
  * Created by Bob on 3/21/2015.
@@ -21,9 +15,6 @@ public class AddActivity extends ActionBarActivity{
 
     EditText userInput;
     String dataString;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +22,6 @@ public class AddActivity extends ActionBarActivity{
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         userInput = (EditText) findViewById(R.id.editText);
-
-
     }
 
     @Override
@@ -54,17 +43,18 @@ public class AddActivity extends ActionBarActivity{
         }
 
         switch (item.getItemId()) {
+            // save implementation
             case R.id.action_save:
                 // get user Input
                 dataString = userInput.getText().toString();
-
+                // send data back to MainActivity
                 Intent intent = new Intent();
                 intent.putExtra("dataString", dataString);
                 intent.putExtra("action", "add");
                 setResult(RESULT_OK, intent);
                 finish();
-
                 break;
+            // refresh form implementation
             case R.id.action_reset:
                 userInput.setText("");
                 break;
