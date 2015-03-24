@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">NavigationDrawerApp</string>
 
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section1">Team 1</string>
+    <string name="title_section2">Team 2</string>
+    <string name="title_section3">Team 3</string>
+    <string name="title_section4">Team 4</string>
+    <string name="title_section5">Team 5</string>
+    <string name="title_section6">Team 6</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -11,4 +14,70 @@
     <string name="action_example">Example action</string>
 
     <string name="action_settings">Settings</string>
+    <string-array name="team1">
+        <item>Player 1</item>
+        <item>Player 2</item>
+        <item>Player 3</item>
+        <item>Player 4</item>
+        <item>Player 5</item>
+        <item>Player 6</item>
+        <item>Player 7</item>
+        <item>Player 8</item>
+        <item>Player 9</item>
+    </string-array>
+    <string-array name="team2">
+    <item>Player 1</item>
+    <item>Player 2</item>
+    <item>Player 3</item>
+    <item>Player 4</item>
+    <item>Player 5</item>
+    <item>Player 6</item>
+    <item>Player 7</item>
+    <item>Player 8</item>
+    <item>Player 9</item>
+    </string-array>
+    <string-array name="team3">
+        <item>Player 1</item>
+        <item>Player 2</item>
+        <item>Player 3</item>
+        <item>Player 4</item>
+        <item>Player 5</item>
+        <item>Player 6</item>
+        <item>Player 7</item>
+        <item>Player 8</item>
+        <item>Player 9</item>
+    </string-array>
+    <string-array name="team4">
+        <item>Player 1</item>
+        <item>Player 2</item>
+        <item>Player 3</item>
+        <item>Player 4</item>
+        <item>Player 5</item>
+        <item>Player 6</item>
+        <item>Player 7</item>
+        <item>Player 8</item>
+        <item>Player 9</item>
+    </string-array>
+    <string-array name="team5">
+        <item>Player 1</item>
+        <item>Player 2</item>
+        <item>Player 3</item>
+        <item>Player 4</item>
+        <item>Player 5</item>
+        <item>Player 6</item>
+        <item>Player 7</item>
+        <item>Player 8</item>
+        <item>Player 9</item>
+    </string-array>
+    <string-array name="team6">
+        <item>Player 1</item>
+        <item>Player 2</item>
+        <item>Player 3</item>
+        <item>Player 4</item>
+        <item>Player 5</item>
+        <item>Player 6</item>
+        <item>Player 7</item>
+        <item>Player 8</item>
+        <item>Player 9</item>
+    </string-array>
 </resources>
