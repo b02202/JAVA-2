@@ -1,30 +1,19 @@
+/*MainActivity.java
+* Robert Brooks*/
 package com.robertbrooks.navigationdrawerapp;
 
-import android.app.Activity;
-import android.app.ListFragment;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import com.robertbrooks.navigationdrawerapp.Fragments.Team1Frag;
+import com.robertbrooks.navigationdrawerapp.Fragments.TeamFrag;
 
 
 public class MainActivity extends ActionBarActivity
-        implements Team1Frag.OnFragmentInteractionListener, NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements TeamFrag.OnFragmentInteractionListener, NavigationDrawerFragment.NavigationDrawerCallbacks {
 
 
     /**
@@ -55,46 +44,39 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        Team1Frag frag1 = null;
+        TeamFrag frag1 = null;
 
         switch (position) {
             case 0:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
             case 1:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
             case 2:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
             case 3:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
             case 4:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
             case 5:
-                frag1 = Team1Frag.newInstance(position + 1);
+                frag1 = TeamFrag.newInstance(position + 1);
                 break;
         }
-
+        // replaced placeholder fragment with TeamFrag
         onSectionAttached(position + 1);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, frag1, Team1Frag.TAG)
+                .replace(R.id.container, frag1, TeamFrag.TAG)
                 .commit();
 
-
-        /*FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();*/
-
-
     }
-
+    // set title based on selection
     public void onSectionAttached(int number) {
         switch (number) {
-            case 0:
+            case 1:
                 mTitle = getString(R.string.title_section1);
                 break;
             case 2:
@@ -151,58 +133,9 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
-
+    // TeamFrag Interface
     @Override
-    public void onFragmentInteratction(Uri uri) {
+    public void onFragmentInteraction(Uri uri) {
 
     }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-
-        }
-
-
-
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-
-
-            return rootView;
-        }
-
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
-        }
-    }
-
 }

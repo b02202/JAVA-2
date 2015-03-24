@@ -1,3 +1,5 @@
+/*NavigationDrawerFragment
+* Robert Brooks*/
 package com.robertbrooks.navigationdrawerapp;
 
 import android.support.v7.app.ActionBarActivity;
