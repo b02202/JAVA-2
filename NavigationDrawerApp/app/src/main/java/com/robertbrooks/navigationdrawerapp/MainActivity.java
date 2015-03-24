@@ -46,10 +46,6 @@ public class MainActivity extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-
-
-
-
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
@@ -82,7 +78,7 @@ public class MainActivity extends ActionBarActivity
                 break;
         }
 
-        onSectionAttached(position);
+        onSectionAttached(position + 1);
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, frag1, Team1Frag.TAG)
                 .commit();
@@ -98,7 +94,7 @@ public class MainActivity extends ActionBarActivity
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
+            case 0:
                 mTitle = getString(R.string.title_section1);
                 break;
             case 2:
@@ -158,13 +154,7 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onFragmentInteratction(Uri uri) {
-        String[] players = getResources().getStringArray(R.array.team1);
-        Team1Frag frag1 = (Team1Frag) getFragmentManager().findFragmentByTag(Team1Frag.TAG);
 
-        if (frag1 == null) {
-
-            frag1.populateList(players);
-        }
     }
 
     /**
