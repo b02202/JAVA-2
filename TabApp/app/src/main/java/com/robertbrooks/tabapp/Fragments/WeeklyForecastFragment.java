@@ -2,6 +2,7 @@
 * Robert Brooks*/
 package com.robertbrooks.tabapp.Fragments;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.robertbrooks.tabapp.CustomData.Weather;
 import com.robertbrooks.tabapp.HttpManager;
 import com.robertbrooks.tabapp.R;
@@ -23,6 +23,8 @@ import java.util.List;
 public class WeeklyForecastFragment extends Fragment {
     List<Weather> weatherList;
     TextView weeklyText;
+    HttpManager netCheck;
+    Boolean isOnline;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     static String TAG = "Weekly: ";
@@ -52,10 +54,22 @@ public class WeeklyForecastFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // Network check
+        netCheck = new HttpManager(getActivity().getApplicationContext());
+        isOnline = netCheck.isOnline();
+        // Network Check
+        if (isOnline) {
 
-        weeklyText = (TextView) getActivity().findViewById(R.id.weekly_text);
-        String forecastUrl = "http://api.wunderground.com/api/0d340778b98d6d95/forecast10day/q/NC/Charlotte.json";
-        runTask(forecastUrl);
+            weeklyText = (TextView) getActivity().findViewById(R.id.weekly_text);
+            String forecastUrl = "http://api.wunderground.com/api/0d340778b98d6d95/forecast10day/q/NC/Charlotte.json";
+            runTask(forecastUrl);
+        } else {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Error")
+                    .setMessage("Your device must be connected to the internet to use this device")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
 
     }
 

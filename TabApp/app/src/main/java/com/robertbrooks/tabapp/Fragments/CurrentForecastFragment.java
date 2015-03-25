@@ -1,5 +1,8 @@
+/*CurrentForecastFragment
+* Robert Brooks*/
 package com.robertbrooks.tabapp.Fragments;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,10 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.robertbrooks.tabapp.CustomData.Weather;
 import com.robertbrooks.tabapp.HttpManager;
-import com.robertbrooks.tabapp.MainActivity;
 import com.robertbrooks.tabapp.R;
 
 import java.util.List;
@@ -58,11 +59,21 @@ public class CurrentForecastFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //TODO: Add network check
-        weatherText = (TextView) getActivity().findViewById(R.id.textView);
-        //testText.setText("Current Conditions working");
-        String apiString = "http://api.wunderground.com/api/0d340778b98d6d95/conditions/q/NC/Charlotte.json";
-        runTask(apiString);
+        netCheck = new HttpManager(getActivity().getApplicationContext());
+        isOnline = netCheck.isOnline();
+        // Network Check
+        if (isOnline) {
+            weatherText = (TextView) getActivity().findViewById(R.id.textView);
+            //testText.setText("Current Conditions working");
+            String apiString = "http://api.wunderground.com/api/0d340778b98d6d95/conditions/q/NC/Charlotte.json";
+            runTask(apiString);
+        } else {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Error")
+                    .setMessage("Your device must be connected to the internet to use this device")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
 
     }
 

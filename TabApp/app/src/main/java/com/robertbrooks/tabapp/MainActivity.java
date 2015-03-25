@@ -1,3 +1,5 @@
+/*MainActivity.java
+* Robert Brooks*/
 package com.robertbrooks.tabapp;
 
 import java.util.Locale;
@@ -10,14 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.robertbrooks.tabapp.Fragments.CurrentForecastFragment;
 import com.robertbrooks.tabapp.Fragments.HourlyFragment;
 import com.robertbrooks.tabapp.Fragments.WeeklyForecastFragment;
