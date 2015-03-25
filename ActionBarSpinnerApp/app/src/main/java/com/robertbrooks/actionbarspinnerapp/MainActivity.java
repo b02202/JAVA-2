@@ -1,5 +1,6 @@
 package com.robertbrooks.actionbarspinnerapp;
 
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.robertbrooks.actionbarspinnerapp.Fragments.FeaturedFragment;
+import com.robertbrooks.actionbarspinnerapp.Fragments.ImagesFragment;
+import com.robertbrooks.actionbarspinnerapp.Fragments.NewsFragment;
+import com.robertbrooks.actionbarspinnerapp.Fragments.SettingsFragment;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.OnNavigationListener {
@@ -93,8 +99,25 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     public boolean onNavigationItemSelected(int position, long id) {
         // When the given dropdown item is selected, show its contents in the
         // container view.
+        Fragment fragObj = null;
+
+        switch (position) {
+            case 0:
+                fragObj = FeaturedFragment.newInstance(position + 1);
+                break;
+            case 1:
+                fragObj = NewsFragment.newInstance(position + 1);
+                break;
+            case 2:
+                fragObj = ImagesFragment.newInstance(position + 1);
+                break;
+            case 3:
+                fragObj = SettingsFragment.newInstance(position + 1);
+                break;
+        }
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
+                .replace(R.id.container, fragObj)
                 .commit();
         return true;
     }
@@ -102,34 +125,5 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
-        }
-    }
 
 }
