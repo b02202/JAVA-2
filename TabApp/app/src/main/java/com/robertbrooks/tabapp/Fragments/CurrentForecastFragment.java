@@ -1,20 +1,30 @@
 package com.robertbrooks.tabapp.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.robertbrooks.tabapp.CustomData.Weather;
+import com.robertbrooks.tabapp.HttpManager;
 import com.robertbrooks.tabapp.MainActivity;
 import com.robertbrooks.tabapp.R;
+
+import java.util.List;
 
 /**
  * Created by Bob on 3/24/2015.
  */
 public class CurrentForecastFragment extends Fragment {
+    TextView weatherText;
+    HttpManager netCheck;
+    Boolean isOnline;
+    List<Atask> tasks;
+
+    List<Weather> weatherList;
 
         /**
          * The fragment argument representing the section number for this
@@ -48,8 +58,55 @@ public class CurrentForecastFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        TextView testText = (TextView) getActivity().findViewById(R.id.textView);
-        testText.setText("Current Conditions working");
+        //TODO: Add network check
+        weatherText = (TextView) getActivity().findViewById(R.id.textView);
+        //testText.setText("Current Conditions working");
+        String apiString = "http://api.wunderground.com/api/0d340778b98d6d95/conditions/q/NC/Charlotte.json";
+        runTask(apiString);
 
+    }
+
+    // AsyncTask
+    private class Atask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            // Parse
+            if (result != null) {
+                weatherList = HttpManager.parse(result);
+                if (weatherList != null){
+                    for (Weather weather : weatherList) {
+                        String Current = (weather.getObservationTime()
+                                + "\n\n Current Weather: " + weather.getCurrentWeather()
+                                + "\n\n Temperature: " + weather.getTemperature()
+                                + "\n\n Relative Humidity: " + weather.getRelativeHumidity()
+                                + "\n\n Wind: " + weather.getWind()
+                                + "\n\n Dewpoint: " + weather.getDewpoint()
+                                + "\n\n Feels Like: " + weather.getFeelsLike()
+                                + "\n\n Visibility: " + weather.getVisibility()
+                                + "\n\n UV: " + weather.getUV());
+                        weatherText.setText(Current);
+                    }
+                }
+            }
+        }
+    }
+
+    // Run Async Task
+    public void runTask(String urlSearch) {
+        Atask task = new Atask();
+        task.execute(urlSearch);
     }
 }

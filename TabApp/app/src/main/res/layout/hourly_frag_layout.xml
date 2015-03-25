@@ -3,10 +3,21 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="This is the hourly forecast"
-        android:id="@+id/hourly_text" />
+        android:id="@+id/scroll_view"
+        android:scrollbars="vertical"
+        android:fillViewport="true">
 
+
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="This is the hourly forecast"
+        android:id="@+id/hourly_text"
+        android:paddingLeft="20dp" />
+
+    </ScrollView>
 </LinearLayout>

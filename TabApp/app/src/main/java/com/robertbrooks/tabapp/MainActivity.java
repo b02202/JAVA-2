@@ -25,6 +25,8 @@ import com.robertbrooks.tabapp.Fragments.WeeklyForecastFragment;
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener {
 
+    // weather underground Key: 0d340778b98d6d95
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a

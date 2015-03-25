@@ -1,18 +1,27 @@
 package com.robertbrooks.tabapp.Fragments;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.robertbrooks.tabapp.CustomData.Weather;
+import com.robertbrooks.tabapp.HttpManager;
 import com.robertbrooks.tabapp.R;
+
+import java.util.List;
 
 /**
  * Created by Bob on 3/24/2015.
  */
 public class HourlyFragment extends Fragment {
+    List<Weather> weatherList;
+    TextView hourlyText;
+    public String TAG = "HourlyFragment";
 
     private static final String ARG_SECTION_NUMBER = "section_number";
 
@@ -42,8 +51,47 @@ public class HourlyFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        TextView testText = (TextView) getActivity().findViewById(R.id.hourly_text);
-        testText.setText("Hourly Conditions working");
+        hourlyText = (TextView) getActivity().findViewById(R.id.hourly_text);
+        String hourlyUrl = "http://api.wunderground.com/api/0d340778b98d6d95/hourly/q/NC/Charlotte.json";
+        runTask(hourlyUrl);
 
     }
+
+    // AsyncTask
+    private class Atask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            String content = HttpManager.getData(params[0]);
+            return content;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            // Parse
+            if (result != null) {
+                weatherList = HttpManager.hourlyParse(result);
+                if (weatherList != null){
+                    for (Weather weather : weatherList) {
+                        String Current = (weather.getDay2());
+                        Log.d(TAG, Current);
+                        hourlyText.setText(Current);
+                    }
+                }
+            }
+        }
+    }
+
+    // Run Async Task
+    public void runTask(String urlSearch) {
+        Atask task = new Atask();
+        task.execute(urlSearch);
+    }
 }
+
