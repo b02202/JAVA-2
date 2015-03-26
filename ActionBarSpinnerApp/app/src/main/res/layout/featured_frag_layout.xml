@@ -6,8 +6,31 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Featured Fragment"
+        android:text="@string/featured_title"
         android:id="@+id/featured_text"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="@dimen/abc_text_size_title_material" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/scroll_view"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:layout_marginTop="20dp">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="@string/featured_news_text"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
+
+    </ScrollView>
 
 </LinearLayout>

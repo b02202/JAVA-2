@@ -3,11 +3,25 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="News Fragment"
+        android:text="@string/news_title"
         android:id="@+id/news_text"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="@dimen/abc_text_size_title_material" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/listView"
+        android:layout_marginTop="30dp"
+        android:entries="@array/news_array"
         android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

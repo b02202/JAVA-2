@@ -1,21 +1,12 @@
 package com.robertbrooks.actionbarspinnerapp;
 
-import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
 import com.robertbrooks.actionbarspinnerapp.Fragments.FeaturedFragment;
 import com.robertbrooks.actionbarspinnerapp.Fragments.ImagesFragment;
 import com.robertbrooks.actionbarspinnerapp.Fragments.NewsFragment;

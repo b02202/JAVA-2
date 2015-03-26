@@ -6,8 +6,41 @@
     <string name="title_section2">News</string>
     <string name="title_section3">Images</string>
     <string name="title_section4">Settings</string>
+    <string name="featured_title">Featured Story</string>
+    <string name="news_title">News</string>
+    <string name="image_title">Image Gallery</string>
+    <string name="settings_title">Settings</string>
 
     <string name="hello_world">Hello world!</string>
 
     <string name="action_settings">Settings</string>
+    <string name="featured_news_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id venenatis velit,
+        ac tempor nunc. Donec maximus purus et felis commodo dignissim. Ut vel sem ac elit imperdiet fermentum eu nec lorem.
+        Pellentesque viverra blandit lorem a fermentum. Curabitur pretium, purus sed bibendum dictum, est eros fermentum
+        tellus, imperdiet dapibus ipsum velit et odio. Proin vel lorem ac metus molestie hendrerit ac quis turpis.
+        Vestibulum eleifend felis tortor, at maximus erat eleifend at. In ac orci diam. Aenean magna est, dictum
+        eget bibendum in, egestas vitae lectus. Maecenas finibus nisi libero, a convallis urna iaculis quis. Vivamus elit
+        orci, semper et malesuada non, lacinia vitae tellus. Duis consectetur, felis ut suscipit volutpat, velit magna commodo
+        massa, a sollicitudin diam risus et libero. Morbi vel urna diam.
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean id venenatis velit,
+        ac tempor nunc. Donec maximus purus et felis commodo dignissim. Ut vel sem ac elit imperdiet fermentum eu nec lorem.
+        Pellentesque viverra blandit lorem a fermentum. Curabitur pretium, purus sed bibendum dictum, est eros fermentum
+        tellus, imperdiet dapibus ipsum velit et odio. Proin vel lorem ac metus molestie hendrerit ac quis turpis.
+        Vestibulum eleifend felis tortor, at maximus erat eleifend at. In ac orci diam. Aenean magna est, dictum
+        eget bibendum in, egestas vitae lectus. Maecenas finibus nisi libero, a convallis urna iaculis quis. Vivamus elit
+        orci, semper et malesuada non, lacinia vitae tellus. Duis consectetur, felis ut suscipit volutpat, velit magna commodo
+        massa, a sollicitudin diam risus et libero. Morbi vel urna diam.</string>
+
+
+
+    <string-array name="news_array">
+        <item>Story 1</item>
+        <item>Story 2</item>
+        <item>Story 3</item>
+        <item>Story 4</item>
+        <item>Story 5</item>
+        <item>Story 6</item>
+        <item>Story 7</item>
+        <item>Story 8</item>
+    </string-array>
 </resources>

@@ -1,6 +1,6 @@
 package com.robertbrooks.actionbarspinnerapp.Fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +11,7 @@ import com.robertbrooks.actionbarspinnerapp.R;
 /**
  * Created by Bob on 3/25/2015.
  */
-public class NewsFragment extends android.support.v4.app.Fragment {
+public class NewsFragment extends Fragment {
     /**
      * The fragment argument representing the section number for this
      * fragment.

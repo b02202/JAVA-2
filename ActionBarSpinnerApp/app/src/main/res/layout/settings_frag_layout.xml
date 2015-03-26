@@ -6,7 +6,12 @@
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Settings Fragment"
+        android:text="@string/settings_title"
         android:id="@+id/settings_text"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="@dimen/abc_text_size_title_material" />
 </LinearLayout>
