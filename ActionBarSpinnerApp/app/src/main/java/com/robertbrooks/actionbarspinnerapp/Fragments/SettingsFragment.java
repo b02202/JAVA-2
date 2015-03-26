@@ -2,16 +2,15 @@
 * Robert Brooks*/
 package com.robertbrooks.actionbarspinnerapp.Fragments;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.robertbrooks.actionbarspinnerapp.R;
@@ -19,7 +18,10 @@ import com.robertbrooks.actionbarspinnerapp.R;
 /**
  * Created by Bob on 3/25/2015.
  */
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends Fragment implements View.OnClickListener {
+    static final String TAG = "SettingsFragment.TAG";
+    Button enable;
+    Button disable;
 
     /**
      * The fragment argument representing the section number for this
@@ -52,17 +54,28 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        View v = getView();
+        View view = getView();
+
+        enable = (Button) view.findViewById(R.id.enable_button);
+        enable.setOnClickListener(this);
+        disable = (Button) view.findViewById(R.id.disable_button);
+        disable.setOnClickListener(this);
+
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        // disable / enable data over mobile
         SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         SharedPreferences.Editor editor = myPrefs.edit();
         switch (v.getId()) {
             case R.id.enable_button:
-
-                //String prefs = myPrefs.getString("MOBILE_DATA", "Default");
-
                 editor.putBoolean("MOBILE_DATA", true);
                 editor.commit();
                 Toast.makeText(getActivity(), "Data over mobile is enabled", Toast.LENGTH_LONG).show();
+                Log.d(TAG, "Enable button pressed");
                 break;
 
             case R.id.disable_button:
@@ -71,24 +84,5 @@ public class SettingsFragment extends Fragment {
                 Toast.makeText(getActivity(), "Data over mobile is disabled", Toast.LENGTH_LONG).show();
                 break;
         }
-
-
-
-
-
-
     }
-
-    // data over mobile enable / disable
-    public void setMobileData() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-
-
-
-
-
-    }
-
 }

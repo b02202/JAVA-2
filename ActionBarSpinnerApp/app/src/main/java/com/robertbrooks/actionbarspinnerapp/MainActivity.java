@@ -58,6 +58,7 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         // get data over mobile shared Preference
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         boolean mobileData = prefs.getBoolean("MOBILE_DATA", true);
+        // run wifiCheck if data over mobile is disabled
         if (!mobileData) {
             wifiCheck();
         }
