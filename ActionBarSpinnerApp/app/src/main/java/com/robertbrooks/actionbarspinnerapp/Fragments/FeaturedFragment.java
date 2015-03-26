@@ -1,3 +1,5 @@
+/*FeaturedFragment.java
+* Robert Brooks*/
 package com.robertbrooks.actionbarspinnerapp.Fragments;
 
 import android.os.Bundle;

@@ -158,6 +158,7 @@ public class MainActivity extends ActionBarActivity implements Master.OnSubmitCl
         if (prefString.equals(prefValue)) {
              if (detailText != null & currentText != null) {
                  detailText.setTextColor(colorInt);
+
                  currentText.setTextColor(colorInt);
              }
 

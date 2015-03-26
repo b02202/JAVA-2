@@ -1,10 +1,18 @@
+/*SettingsFragment.java
+* Robert Brooks*/
 package com.robertbrooks.actionbarspinnerapp.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.robertbrooks.actionbarspinnerapp.R;
 
@@ -41,5 +49,46 @@ public class SettingsFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        View v = getView();
+        SharedPreferences myPrefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences.Editor editor = myPrefs.edit();
+        switch (v.getId()) {
+            case R.id.enable_button:
+
+                //String prefs = myPrefs.getString("MOBILE_DATA", "Default");
+
+                editor.putBoolean("MOBILE_DATA", true);
+                editor.commit();
+                Toast.makeText(getActivity(), "Data over mobile is enabled", Toast.LENGTH_LONG).show();
+                break;
+
+            case R.id.disable_button:
+                editor.putBoolean("MOBILE_DATA", false);
+                editor.commit();
+                Toast.makeText(getActivity(), "Data over mobile is disabled", Toast.LENGTH_LONG).show();
+                break;
+        }
+
+
+
+
+
+
+    }
+
+    // data over mobile enable / disable
+    public void setMobileData() {
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+
+
+
+
+
+    }
 
 }

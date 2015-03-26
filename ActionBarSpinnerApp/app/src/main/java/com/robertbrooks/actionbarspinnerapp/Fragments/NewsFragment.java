@@ -1,3 +1,5 @@
+/*NewsFragment.java
+* Robert Brooks*/
 package com.robertbrooks.actionbarspinnerapp.Fragments;
 
 import android.support.v4.app.Fragment;

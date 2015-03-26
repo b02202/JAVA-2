@@ -14,4 +14,22 @@
         android:layout_marginRight="20dp"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="@dimen/abc_text_size_title_material" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enable Data Over Mobile"
+        android:id="@+id/enable_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disable Data Over Mobile"
+        android:id="@+id/disable_button"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp" />
+
+
 </LinearLayout>

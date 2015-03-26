@@ -1,5 +1,13 @@
+/*MainActivity.java
+* Robert Brooks*/
 package com.robertbrooks.actionbarspinnerapp;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -45,7 +53,18 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
                                 getString(R.string.title_section4),
                         }),
                 this);
+
+
+        // get data over mobile shared Preference
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean mobileData = prefs.getBoolean("MOBILE_DATA", true);
+        if (!mobileData) {
+            wifiCheck();
+        }
+
+
     }
+
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
@@ -113,8 +132,20 @@ public class MainActivity extends ActionBarActivity implements ActionBar.OnNavig
         return true;
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
+    // wifi check
+    public void wifiCheck() {
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (!wifi.isConnected()) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Data over mobile turned off")
+                    .setMessage("Please enable data over mobile or connect wifi.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+
+
+    }
 
 }
