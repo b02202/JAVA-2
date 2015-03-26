@@ -92,19 +92,10 @@ public class HttpManager {
             // get "data" object
             JSONObject data = baseOBJ.getJSONObject("current_observation");
             // get "current condition array from "data"
-            ;
             // Create Weather class arrayList
             List<Weather> weatherList = new ArrayList<>();
             // get first object from "current condition" array
-
-
             Weather weather = new Weather();
-
-            // String temp = JSONWeather.getString("temp");
-            /*double fConv = Math.round((temp - 273.15) * 1.8000 + 32.00);
-            int tempInt = (int)(fConv);*/
-
-            //String tempString = Integer.toString(tempInt) + "˚F";
             weather.setObservationTime(data.getString("observation_time"));
             weather.setCurrentWeather(data.getString("weather"));
             weather.setTemperature(data.getString("temperature_string"));
@@ -129,7 +120,7 @@ public class HttpManager {
         try {
             // get complete JSON object from Weather Source
             JSONObject baseOBJ = new JSONObject(content);
-            // get "data" object
+            // get "forecast" object
             JSONObject data = baseOBJ.getJSONObject("forecast");
             // get forecast object array from "data"
             JSONObject forecast = data.getJSONObject("simpleforecast");
@@ -175,20 +166,11 @@ public class HttpManager {
         try {
             // get complete JSON object from Weather Source
             JSONObject baseOBJ = new JSONObject(content);
-            // get "data" object
+            // get "hourly_forecast" array
             JSONArray hourlyForecast = baseOBJ.getJSONArray("hourly_forecast");
-            // get forecast object array from "data"
-            //JSONObject forecast = data.getJSONObject("simpleforecast");
-            // get forecastday array
-            //JSONArray forecastDay = forecast.getJSONArray("forecastday");
-
             // Create Weather class arrayList
             List<Weather> weatherList = new ArrayList<>();
-            // get first object from "current condition" array
-
-
             Weather weather = new Weather();
-
             StringBuilder sb = new StringBuilder();
             //Loop through forecastDay
             for (int i = 0; i < hourlyForecast.length(); i++) {

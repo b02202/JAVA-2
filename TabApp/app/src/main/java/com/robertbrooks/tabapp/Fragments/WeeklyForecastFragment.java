@@ -66,7 +66,7 @@ public class WeeklyForecastFragment extends Fragment {
         } else {
             new AlertDialog.Builder(getActivity())
                     .setTitle("Error")
-                    .setMessage("Your device must be connected to the internet to use this device")
+                    .setMessage("Your device must be connected to the internet to use this application")
                     .setPositiveButton("OK", null)
                     .show();
         }
