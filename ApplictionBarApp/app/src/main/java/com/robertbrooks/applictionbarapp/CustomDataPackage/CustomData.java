@@ -1,3 +1,5 @@
+/*CustomData.java
+* Robert Brooks */
 package com.robertbrooks.applictionbarapp.CustomDataPackage;
 
 /**
@@ -16,15 +18,4 @@ public class CustomData {
     }
 
 
-
-
-
-   /* public CustomData(String id) {
-        this.dataString = id;
-    }
-
-    @Override
-    public String toString() {
-        return dataString;
-    }*/
 }

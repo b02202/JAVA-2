@@ -1,4 +1,5 @@
-/*MainActivity.java*/
+/*MainActivity.java
+* Robert Brooks*/
 package com.robertbrooks.applictionbarapp;
 
 import android.content.Intent;
