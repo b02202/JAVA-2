@@ -120,7 +120,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        // get returned intent and add save to file
         if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
             dataString = data.getStringExtra("dataString");
             String action = data.getStringExtra("action");
@@ -135,7 +135,7 @@ public class MainActivity extends ActionBarActivity {
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
-
+                // refresh list
                 getFileNames();
             }
 
